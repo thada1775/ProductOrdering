@@ -358,6 +358,9 @@ namespace ProductOrdering.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<string>("ProductImage")
+                        .HasColumnType("text");
+
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");

@@ -15,6 +15,6 @@ namespace ProductOrdering.Models
         [Display(Name = "คำอธิบาย")]
         public string Description { get; set; }
         
-        public ICollection<Product> Products { get; } 
+        public ICollection<Product>? Products { get; } 
     }
 }
