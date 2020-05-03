@@ -1,0 +1,140 @@
+﻿@model ProductOrdering.Models.UserDetail
+
+@{
+    ViewData["Title"] = "เพิ่มข้อมูลผู้ใช้";
+}
+
+    <h1>เพิ่มข้อมูลผู้ใช้</h1>
+
+<h4>ข้อมูลผู้ใช้</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddUserDetail">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <input type="hidden" value="0" asp-for="UserId" class="form-control" />
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tel" class="control-label"></label>
+                <input asp-for="Tel" class="form-control" />
+                <span asp-validation-for="Tel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Province_id" class="control-label"></label>
+                <select asp-for="Province_id" id="Province_id" onchange="FindAumphor()" class="form-control" asp-items="ViewBag.Province_id">
+                    <option value='0'>เลือกจังหวัด</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aumphure_id" class="control-label"></label>
+                <select asp-for="Aumphure_id" id="Aumphure_id" onchange="FindDistrict()" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="District_id" class="control-label"></label>
+                <select asp-for="District_id" class="form-control" asp-items="ViewBag.District_id"></select>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="บันทึก" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">กลับ</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+
+ 
+    function FindAumphor() {
+        var procemessage = "<option value='0'> กำลังค้นหา...</option>";
+        $("#Aumphure_id").html(procemessage).show();
+        //var url = "/UserManager/FindAumphor";
+        var _Province_id = $('#Province_id').val();
+        $.ajax({
+            url: 'FindAumphor',
+            data: { Province_id: _Province_id },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                var markup = "<option value='0'>เลือกอำเภอ</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
+                }
+                $("#Aumphure_id").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+    }
+
+    function FindDistrict() {
+        var procemessage = "<option value='0'> กำลังค้นหา...</option>";
+        $("#District_id").html(procemessage).show();
+        
+        var _Aumphure_id = $('#Aumphure_id').val();
+        $.ajax({
+            url: 'FindDistrict',
+            data: { Aumphure_id: _Aumphure_id },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                var markup = "<option value='0'>เลือกตำบล</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
+                }
+                $("#District_id").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+       //function FindAumphor() {
+
+    //    var Province_id = $('#Province_id').val();
+    //    //console.log(CategoryId);
+
+    //    $.ajax({
+    //        url: 'FindAumphor',
+    //        type: "GET",
+    //        dataType: "JSON",
+    //        data: { Province_id: Province_id },
+    //        success: function (response) {
+    //            console.log(response);
+    //            $("#Aumphure_id").html("");
+    //            $.each(response, function (index, value) {
+    //                $("#Aumphure_id").append(
+    //                    $('<option></option>').val(value.Id).html(value.Name_th));
+    //            });
+    //        }
+    //    });
+
+    //    //window.location.href = "/UserManager/FindAumphor?Province_id=" + val;
+    //}
+
+</script>
+}

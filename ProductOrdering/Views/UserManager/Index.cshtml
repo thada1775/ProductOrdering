@@ -1,0 +1,74 @@
+﻿@model ProductOrdering.Models.UserDetail
+
+@{
+    ViewData["Title"] = "ข้อมูลผู้ใช้";
+}
+
+<h1>ข้อมูลผู้ใช้</h1>
+@if (Model == null)
+{
+    <a class="btn btn-primary" asp-action="AddUserDetail">เพิ่มข้อมูลผู้ใช้</a>
+    <div>ยังไม่มีข้อมูลผู้ใช้ กรุณากรอกข้อมูล</div>
+}
+else
+{
+    <div>
+        <h4>ข้อมูลผู้ใช้</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Tel)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Tel)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.District_id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.District.Name_th)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Aumphure_id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Aumphure.Name_th)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Province_id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Province.Name_th)
+            </dd>
+            @*<dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ApplicationUser)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ApplicationUser.Id)
+            </dd>*@
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.UserDetailId">EditUserDetail</a> |
+
+    </div>
+}
+

@@ -1,0 +1,90 @@
+﻿@model ProductOrdering.Models.Ordering
+@{
+    ViewData["Title"] = "เพิ่มรายการสั่งซื้อ";
+}
+
+<h1>เพิ่มรายการสั่งซื้อ</h1>
+
+<h4>รายการสั่งซื้อ</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddOrdering">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" value="0" />
+            <div class="form-group">
+                <label asp-for="ProductId" class="control-label"></label>
+                @*<select asp-for="ProductId" class ="form-control" asp-items="ViewBag.ProductId"></select>*@
+                <label class="control-label" name="ProductSelectedText"></label>
+                <a class="btn btn-primary" id="ProductListModal" asp-action="ProductListModal">เลือกสินค้า</a>
+                <input type="hidden" asp-for="ProductId" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Payment" class="control-label"></label>
+                <select asp-for="Payment" asp-items="@Html.GetEnumSelectList<Payment>()" class="form-control"></select>
+                <span asp-validation-for="Payment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" asp-items="@Html.GetEnumSelectList<Status>()" class="form-control"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalPrice" class="control-label"></label>
+                <input asp-for="TotalPrice" class="form-control" />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="สั่งซื้อ" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+@(Html.Awe().InitPopup()
+      .Name("popupTop")
+      .Url(Url.Action("Popup1"))
+      .LoadOnce()
+      .Modal()
+      .Top()
+      .Mod(o => o.OutClickClose())
+      .Width(1000)
+      .Title("top modal popup"))
+@Html.Awe().Button().Text("Open top modal").OnClick(Html.Awe().OpenPopup("popupTop"))
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>document.write(new Date().toDateString());</script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+    </script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#ProductListModal").click(function () {
+                $("#loginModal").modal('show');
+            });
+
+            $("#btnHideModal").click(function () {
+                $("#loginModal").modal('hide');
+            });
+        });
+    </script>
+}
