@@ -4,7 +4,7 @@
     ViewData["Title"] = "สินค้า";
 }
 
-    <h1>สินค้า</h1>
+<h1>สินค้า</h1>
 
 <p>
     <a class="btn btn-primary" asp-action="AddProduct">เพิ่มสินค้าชิ้นใหม่</a>
@@ -14,8 +14,8 @@
     <thead>
         <tr>
             @*<th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.ProductId)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ProductImage)
             </th>
@@ -35,35 +35,52 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>*@
-            <td>
-                <img src="~/imageSource/@item.ProductImage"
-                     
-                     height="40" width="40"
-                     asp-append-version="true" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.ActionLink("แก้ไข", "EditProduct", new {  id=item.ProductId  }) |
-                @Html.ActionLink("รายละเอียด", "Details", new { id=item.ProductId }) |
-                @Html.ActionLink("ลบ", "DeleteProduct", new {  id=item.ProductId })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ProductId)
+                    </td>*@
+                <td>
+                    <img src="~/imageSource/@item.ProductImage"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("แก้ไข", "EditProduct", new { id = item.ProductId }) |
+                    @Html.ActionLink("รายละเอียด", "PreductDetails", new { id = item.ProductId }) |
+                    @Html.ActionLink("ลบ", "DeleteProduct", new { id = item.ProductId }) |
+                    <span class="btn btn-xs btn-primary btnEdit" id="edit_@item.ProductId" onclick="createModal('@Url.Action("ProductDetails", "Product" , new {id=item.ProductId })')">Details</span>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modelContent">
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js">
+
+</script>
+    <script>
+    function createModal(url){
+          $('#modelContent').load(url);
+          $('#myModal').modal('show');
+    }
+</script>

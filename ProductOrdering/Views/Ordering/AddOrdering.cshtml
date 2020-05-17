@@ -14,11 +14,25 @@
             <input type="hidden" asp-for="UserId" value="0" />
             <div class="form-group">
                 <label asp-for="ProductId" class="control-label"></label>
+                <a class="btn btn-primary" id="ProductListModal" onclick="createModal()">เลือกสินค้า</a>
                 @*<select asp-for="ProductId" class ="form-control" asp-items="ViewBag.ProductId"></select>*@
-                <label class="control-label" name="ProductSelectedText"></label>
-                <a class="btn btn-primary" id="ProductListModal" asp-action="ProductListModal">เลือกสินค้า</a>
+                @*<label class="control-label" name="ProductSelectedText"></label>*@
+
                 <input type="hidden" asp-for="ProductId" />
             </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <img id="ProductImageSource" class="img-thumbnail rounded float-right"
+                             height="100" width="100"
+                             asp-append-version="true" />
+                    </div>
+                    <div class="col-sm-6">
+                        <label id="ProductName" />
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Payment" class="control-label"></label>
                 <select asp-for="Payment" asp-items="@Html.GetEnumSelectList<Payment>()" class="form-control"></select>
@@ -55,36 +69,31 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-@(Html.Awe().InitPopup()
-      .Name("popupTop")
-      .Url(Url.Action("Popup1"))
-      .LoadOnce()
-      .Modal()
-      .Top()
-      .Mod(o => o.OutClickClose())
-      .Width(1000)
-      .Title("top modal popup"))
-@Html.Awe().Button().Text("Open top modal").OnClick(Html.Awe().OpenPopup("popupTop"))
+
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content" id="modelContent">
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js">
+
+</script>
+<script>
+    var url = 'ModalPopUp';
+    function createModal() {
+        //console.log(url);
+        $('#modelContent').load(url);
+
+        $('#myModal').modal('show');
+        $('#myModal').on('hidden.bs.modal', function (e) {
+
+
+        });
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>document.write(new Date().toDateString());</script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
-
-    </script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $("#ProductListModal").click(function () {
-                $("#loginModal").modal('show');
-            });
-
-            $("#btnHideModal").click(function () {
-                $("#loginModal").modal('hide');
-            });
-        });
-    </script>
 }

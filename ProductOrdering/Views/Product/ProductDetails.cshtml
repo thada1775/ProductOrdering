@@ -1,0 +1,32 @@
+﻿@model Product
+    <div class="modal-header">
+        <h4 class="modal-title">รายละเอียด</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fa fa-times-circle">X</i></span>
+        </button>
+    </div>
+<div class="modal-body">
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Name)</td>
+                <td>@Html.DisplayFor(model => model.Name)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Price)</td>
+                <td>@Html.DisplayFor(model => model.Price)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Amount)</td>
+                <td>@Html.DisplayFor(model => model.Amount)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default"
+            data-dismiss="modal">
+        ปิด
+    </button>
+</div>
+

@@ -203,3 +203,5 @@ D:\Users\THLIGHT\source\repos\ProductOrdering\ProductOrdering\obj\Debug\netcorea
 D:\Users\THLIGHT\source\repos\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Ordering\AddOrdering.cshtml.g.cs
 D:\Users\THLIGHT\source\repos\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Ordering\Index.cshtml.g.cs
 D:\Users\THLIGHT\source\repos\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Ordering\ProductListModal.cshtml.g.cs
+D:\Users\THLIGHT\source\repos\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Ordering\ModalPopUp.cshtml.g.cs
+D:\Users\THLIGHT\source\repos\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Product\ProductDetails.cshtml.g.cs

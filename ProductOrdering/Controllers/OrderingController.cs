@@ -27,10 +27,21 @@ namespace ProductOrdering.Controllers
             
             return View();
         }
+        public async Task<IActionResult> ModalPopUp()
+        {
+            var allProduct = await _context.Products.Include(p => p.Category).ToListAsync();
+            return PartialView(allProduct);
+        }
         public async Task<IActionResult> ProductListModal()
         {
             var allProduct = await _context.Products.Include(p => p.Category).ToListAsync();
             return View(allProduct);
+        }
+        [HttpPost]
+        public async Task<IActionResult> FindProductSelect(int? ProductId)
+        {
+            var productSelect = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == ProductId);
+            return Json(productSelect);
         }
     }
 }

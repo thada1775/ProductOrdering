@@ -126,5 +126,10 @@ namespace ProductOrdering.Controllers
             }
             return uniqueFileName;
         }
+        public async Task<IActionResult> ProductDetails(int id)
+        {
+            var currentProduct = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
+            return PartialView(currentProduct);
+        }
     }
 }
