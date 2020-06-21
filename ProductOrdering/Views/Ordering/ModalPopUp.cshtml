@@ -87,8 +87,9 @@
                 document.getElementById("ProductName").innerHTML = data["name"];
                 var rootSourceImage = "/imageSource/";
                 var sourceImage = rootSourceImage.concat(data["productImage"]);
-                console.log(sourceImage);
+                //console.log(sourceImage);
                 document.getElementById("ProductImageSource").src = sourceImage;
+                document.getElementById("ProductId").value = data["productId"];
                 //$("#Aumphure_id").html(markup).show();
             },
             error: function (reponse) {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,16 +21,32 @@ namespace ProductOrdering.Models
         public string Address { get; set; }
         [Display(Name = "รหัสตำบล")]
         public int District_id { get; set; }
-        public virtual District District { get; set; }
-        [Display(Name = "รหัสอำเภอ")]
-        public virtual Aumphure Aumphure { get; set; }
-        public int Aumphure_id { get; set; }
-        [Display(Name = "รหัสจังหวัด")]
+        public virtual District? District { get; set; }
 
-        public virtual Province Province { get; set; }
+        public virtual Aumphure? Aumphure { get; set; }
+        [Display(Name = "รหัสอำเภอ")]
+        public int Aumphure_id { get; set; }
+        public virtual Province? Province { get; set; }
+        [Display(Name = "รหัสจังหวัด")]
         public int Province_id { get; set; }
         [Display(Name = "รหัสรายการสั่งซื้อ")]
         public int OrderingId { get; set; }
-        public virtual Ordering Ordering { get; set; }
+        public virtual Ordering? Ordering { get; set; }
+
+        [NotMapped]
+        public string FullAddress
+        {
+            get
+            {
+                String address = $"{Address} ต.{District.Name_th} อ.{Aumphure.Name_th} จ.{Province.Name_th} {District.Zip_code}";
+                return address;
+            }
+        }
+        public string GetAddress()
+        {
+            //String address = Address + " ต." + District.Name_th + " อ." + Aumphure.Name_th + " จ." + Province.Name_th + " " + District.Zip_code;
+            String address = $"{Address} ต.{District.Name_th} อ.{Aumphure.Name_th} จ.{Province.Name_th} {District.Zip_code}";
+            return address;
+        }
     }
 }

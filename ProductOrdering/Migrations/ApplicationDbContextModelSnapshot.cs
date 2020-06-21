@@ -307,7 +307,7 @@ namespace ProductOrdering.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Discount")
+                    b.Property<decimal?>("Discount")
                         .HasColumnType("numeric");
 
                     b.Property<int>("Payment")
@@ -319,14 +319,13 @@ namespace ProductOrdering.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Time")
+                    b.Property<DateTime?>("Time")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<decimal>("TotalPrice")
+                    b.Property<decimal?>("TotalPrice")
                         .HasColumnType("numeric");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("OrderingId");
@@ -589,9 +588,7 @@ namespace ProductOrdering.Migrations
 
                     b.HasOne("ProductOrdering.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Orderings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ProductOrdering.Models.Product", b =>

@@ -11,7 +11,9 @@
     <div class="col-md-4">
         <form asp-action="AddOrdering">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserId" value="0" />
+            @*<input type="hidden" asp-for="UserId" value="0" />
+            <input type="hidden" asp-for="TotalPrice" value="0" />
+            <input type="hidden" asp-for="TotalPrice" value="0" />*@
             <div class="form-group">
                 <label asp-for="ProductId" class="control-label"></label>
                 <a class="btn btn-primary" id="ProductListModal" onclick="createModal()">เลือกสินค้า</a>
@@ -53,11 +55,45 @@
                 <input asp-for="Amount" class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+            <label asp-for="TotalPrice" class="control-label"></label>
+            <input asp-for="TotalPrice" class="form-control" />
+            <span asp-validation-for="TotalPrice" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <label asp-for="TotalPrice" class="control-label"></label>
-                <input asp-for="TotalPrice" class="form-control" />
-                <span asp-validation-for="TotalPrice" class="text-danger"></span>
-            </div>
+            <label asp-for="Receiver.Name" class="control-label"></label>
+            <input asp-for="Receiver.Name" class="form-control" />
+            <span asp-validation-for="Receiver.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Receiver.Lastname" class="control-label"></label>
+            <input asp-for="Receiver.Lastname" class="form-control" />
+            <span asp-validation-for="Receiver.Lastname" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Receiver.Tel" class="control-label"></label>
+            <input asp-for="Receiver.Tel" class="form-control" />
+            <span asp-validation-for="Receiver.Tel" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Receiver.Address" class="control-label"></label>
+            <input asp-for="Receiver.Address" class="form-control" />
+            <span asp-validation-for="Receiver.Address" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Receiver.Province_id" class="control-label"></label>
+            <select asp-for="Receiver.Province_id" id="Province_id" onchange="FindAumphor()" class="form-control" asp-items="ViewBag.Province_id">
+                <option value='0'>กรุณาเลือกจังหวัด</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Receiver.Aumphure_id" class="control-label"></label>
+            <select asp-for="Receiver.Aumphure_id" id="Aumphure_id" onchange="FindDistrict()" asp-items="ViewBag.Aumphure_id" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Receiver.District_id" class="control-label"></label>
+            <select asp-for="Receiver.District_id" id="District_id" class="form-control" asp-items="ViewBag.District_id"></select>
+        </div>
 
             <div class="form-group">
                 <input type="submit" value="สั่งซื้อ" class="btn btn-primary" />
@@ -91,9 +127,60 @@
 
         });
     }
+
 </script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 }
+<script type="text/javascript">
+    function FindAumphor() {
+        var procemessage = "<option value='0'> กำลังค้นหา...</option>";
+        $("#Aumphure_id").html(procemessage).show();
+        //var url = "/UserManager/FindAumphor";
+        var _Province_id = $('#Province_id').val();
+        $.ajax({
+            url: 'FindAumphor',
+            data: { Province_id: _Province_id },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                //console.log(data);
+                var markup = "<option value='0'>เลือกอำเภอ</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
+                }
+                $("#Aumphure_id").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+    }
+
+    function FindDistrict() {
+        var procemessage = "<option value='0'> กำลังค้นหา...</option>";
+        $("#District_id").html(procemessage).show();
+
+        var _Aumphure_id = $('#Aumphure_id').val();
+        $.ajax({
+            url: 'FindDistrict',
+            data: { Aumphure_id: _Aumphure_id },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                var markup = "<option value='0'>เลือกตำบล</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
+                }
+                $("#District_id").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>
