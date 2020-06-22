@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProductOrdering.Data;
 using ProductOrdering.Extensions;
 using ProductOrdering.Models;
+using Rotativa.AspNetCore;
 
 namespace ProductOrdering.Controllers
 {
@@ -70,7 +71,7 @@ namespace ProductOrdering.Controllers
                 currentOrdering.Receiver = receiverSelect;
                 return View(currentOrdering);
             }
-            
+
             return View();
         }
         [HttpPost]
@@ -133,6 +134,7 @@ namespace ProductOrdering.Controllers
             var allAumphure = new SelectList(prepareAllAumphure, "Id", "Name_th", 0);
             return Json(allAumphure);
         }
+
         [HttpPost]
         public async Task<ActionResult> FindDistrict(int? Aumphure_id)
         {
@@ -140,6 +142,52 @@ namespace ProductOrdering.Controllers
             var allDistrict = new SelectList(prepareAllDistrict, "Id", "Name_th", 0);
             return Json(allDistrict);
         }
-   
+
+        public async Task<IActionResult> PrintOrder(IFormCollection orderSelect)
+        {
+            List<Ordering> orderToPrint = new List<Ordering>();
+            
+            foreach(var a in orderSelect.Keys)
+            {
+                try
+                {
+                    int orderingId = Int32.Parse(a);
+                    var myOrdering = await _context.Orderings.Where(o => o.OrderingId == orderingId)
+                    .Include(o => o.Product)
+                    .Include(o => o.Receiver)
+                    .Include(o => o.Receiver.District)
+                    .Include(o => o.Receiver.Aumphure)
+                    .Include(o => o.Receiver.Province)
+                    .OrderBy(p => p.Time).FirstOrDefaultAsync();
+                    orderToPrint.Add(myOrdering);
+                }
+                catch
+                {
+
+                }
+            }
+            
+            var DocumentOrder = new ViewAsPdf("OrderPrint", orderToPrint)
+            {
+                PageSize = Rotativa.AspNetCore.Options.Size.A4
+            };
+            return new ViewAsPdf("OrderPrint", orderToPrint);
+            //return View("OrderPrint", myOrdering);
+        }
+
+        public async Task<IActionResult> OrderPreparingToPrint()
+        {
+            var allOrdering = await _context.Orderings
+                .Include(o => o.Product)
+                .Include(o => o.Receiver)
+                .Include(o => o.Receiver.District)
+                .Include(o => o.Receiver.Aumphure)
+                .Include(o => o.Receiver.Province)
+                .OrderBy(p => p.Time)
+                .ToListAsync();
+            return View(allOrdering);
+        }
+
+
     }
 }

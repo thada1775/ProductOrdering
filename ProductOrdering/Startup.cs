@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProductOrdering.Models;
+using Rotativa.AspNetCore;
 
 namespace ProductOrdering
 {
@@ -58,6 +59,8 @@ namespace ProductOrdering
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
 
             app.UseEndpoints(endpoints =>
             {
