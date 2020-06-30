@@ -32,12 +32,25 @@ namespace ProductOrdering.Controllers
                 .OrderBy(p => p.Time).ToListAsync();
             return View(myOrdering);
         }
+
         [HttpPost]
-        public async Task<IActionResult> SearchOrdering(string q)
+        public async Task<List<Ordering>> SearchOrdering(string? q,int? CategotyId)
         {
-            if (q != null)
+            List<Ordering> orderingSelect;
+            if (q != null && CategotyId != null)
             {
-                var orderingSelect = await _context.Orderings
+                orderingSelect = await _context.Orderings
+                .Include(o => o.Product)
+                .Include(o => o.Receiver)
+                .Where(o => o.Receiver.Name.Contains(q) && o.Product.CategoryId == CategotyId)
+                .Include(o => o.Receiver.District)
+                .Include(o => o.Receiver.Aumphure)
+                .Include(o => o.Receiver.Province)
+                .ToListAsync();
+            }
+            else if(q != null && CategotyId == null)
+            {
+                orderingSelect = await _context.Orderings
                     .Include(o => o.Receiver)
                     .Where(o => o.Receiver.Name.Contains(q))
                     .Include(o => o.Product)
@@ -45,9 +58,30 @@ namespace ProductOrdering.Controllers
                     .Include(o => o.Receiver.Aumphure)
                     .Include(o => o.Receiver.Province)
                     .ToListAsync();
-                return View("Index", orderingSelect);
             }
-            return View("Index", await _context.Orderings.Include(o => o.Receiver).Include(o => o.Product).ToListAsync());
+            else if (q == null && CategotyId != null)
+            {
+                orderingSelect = await _context.Orderings
+                .Include(o => o.Product)
+                .Where(o => o.Product.CategoryId == CategotyId)
+                .Include(o => o.Receiver)
+                .Include(o => o.Receiver.District)
+                .Include(o => o.Receiver.Aumphure)
+                .Include(o => o.Receiver.Province)
+                .ToListAsync();
+            }
+            else
+            {
+                orderingSelect = await _context.Orderings
+                .Include(o => o.Product)
+                .Include(o => o.Receiver)
+                .Include(o => o.Receiver.District)
+                .Include(o => o.Receiver.Aumphure)
+                .Include(o => o.Receiver.Province)
+                .OrderBy(p => p.Time)
+                .ToListAsync();
+            }
+            return orderingSelect;
         }
         public async Task<IActionResult> AddOrdering()
         {
@@ -107,7 +141,13 @@ namespace ProductOrdering.Controllers
                 return RedirectToAction("Index");
             }
             var allProvince = await _context.Provinces.OrderBy(p => p.Name_th).ToListAsync();
-            ViewBag.Province_id = new SelectList(allProvince, "Id", "Name-th", model.Receiver.Province_id);
+            ViewBag.Province_id = new SelectList(allProvince, "Id", "Name_th", model.Receiver.Province_id);
+
+            var allAumphures = await _context.Aumphures.OrderBy(p => p.Name_th).ToListAsync();
+            ViewBag.Aumphure_id = new SelectList(allAumphures, "Id", "Name_th", model.Receiver.Aumphure_id);
+
+            var allDistricts = await _context.Districts.OrderBy(p => p.Name_th).ToListAsync();
+            ViewBag.District_id = new SelectList(allDistricts, "Id", "Name_th", model.Receiver.District_id);
             return View();
 
         }
@@ -146,48 +186,38 @@ namespace ProductOrdering.Controllers
         public async Task<IActionResult> PrintOrder(IFormCollection orderSelect)
         {
             List<Ordering> orderToPrint = new List<Ordering>();
-            
-            foreach(var a in orderSelect.Keys)
-            {
-                try
-                {
-                    int orderingId = Int32.Parse(a);
-                    var myOrdering = await _context.Orderings.Where(o => o.OrderingId == orderingId)
-                    .Include(o => o.Product)
-                    .Include(o => o.Receiver)
-                    .Include(o => o.Receiver.District)
-                    .Include(o => o.Receiver.Aumphure)
-                    .Include(o => o.Receiver.Province)
-                    .OrderBy(p => p.Time).FirstOrDefaultAsync();
-                    orderToPrint.Add(myOrdering);
-                }
-                catch
-                {
 
-                }
-            }
-            
-            var DocumentOrder = new ViewAsPdf("OrderPrint", orderToPrint)
+            foreach (var item in orderSelect["OrderingId"])
             {
-                PageSize = Rotativa.AspNetCore.Options.Size.A4
-            };
-            return new ViewAsPdf("OrderPrint", orderToPrint);
-            //return View("OrderPrint", myOrdering);
-        }
-
-        public async Task<IActionResult> OrderPreparingToPrint()
-        {
-            var allOrdering = await _context.Orderings
+                int orderingId = Int32.Parse(item);
+                var myOrdering = await _context.Orderings.Where(o => o.OrderingId == orderingId)
                 .Include(o => o.Product)
                 .Include(o => o.Receiver)
                 .Include(o => o.Receiver.District)
                 .Include(o => o.Receiver.Aumphure)
                 .Include(o => o.Receiver.Province)
-                .OrderBy(p => p.Time)
-                .ToListAsync();
-            return View(allOrdering);
+                .OrderBy(p => p.Time).FirstOrDefaultAsync();
+                orderToPrint.Add(myOrdering);
+
+            }
+
+            var DocumentOrder = new ViewAsPdf("OrderPrint", orderToPrint)
+            {
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                FileName = DateTime.Now.ToString("MMddyyyy_HHmmss")+".pdf"
+            };
+
+            return DocumentOrder;
+            //return new ViewAsPdf("OrderPrint", orderToPrint);
+            //return View("OrderPrint", orderToPrint);
         }
 
-
+        public async Task<IActionResult> OrderPreparingToPrint(string? q,int? CategoryId)
+        {
+            var allCategory = await _context.Categories.ToListAsync();
+            ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name");
+            var allOrdering = await SearchOrdering(q, CategoryId);
+            return View(allOrdering);
+        }
     }
 }

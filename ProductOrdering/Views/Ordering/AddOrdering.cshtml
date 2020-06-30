@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddOrdering">
+        <form method="post" asp-action="AddOrdering">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<input type="hidden" asp-for="UserId" value="0" />
             <input type="hidden" asp-for="TotalPrice" value="0" />

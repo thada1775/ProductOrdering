@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ProductOrdering.Migrations
 {
-    public partial class first : Migration
+    public partial class InitialFirst : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -206,7 +206,8 @@ namespace ProductOrdering.Migrations
                     Name = table.Column<string>(nullable: false),
                     Amount = table.Column<int>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    CategoryId = table.Column<int>(nullable: false),
+                    ProductImage = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -247,14 +248,14 @@ namespace ProductOrdering.Migrations
                 {
                     OrderingId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
                     ProductId = table.Column<int>(nullable: false),
                     Payment = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    Discount = table.Column<decimal>(nullable: false),
+                    Discount = table.Column<decimal>(nullable: true),
                     Amount = table.Column<int>(nullable: false),
-                    TotalPrice = table.Column<decimal>(nullable: false),
-                    Time = table.Column<DateTime>(nullable: false)
+                    TotalPrice = table.Column<decimal>(nullable: true),
+                    Time = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -270,7 +271,7 @@ namespace ProductOrdering.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,15 +283,14 @@ namespace ProductOrdering.Migrations
                     Zip_code = table.Column<int>(nullable: false),
                     Name_th = table.Column<string>(nullable: false),
                     Name_en = table.Column<string>(nullable: false),
-                    Aumphure_id = table.Column<int>(nullable: false),
-                    AumphureId = table.Column<int>(nullable: false)
+                    Aumphure_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Districts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Districts_Aumphures_AumphureId",
-                        column: x => x.AumphureId,
+                        name: "FK_Districts_Aumphures_Aumphure_id",
+                        column: x => x.Aumphure_id,
                         principalTable: "Aumphures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -427,9 +427,9 @@ namespace ProductOrdering.Migrations
                 column: "Province_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Districts_AumphureId",
+                name: "IX_Districts_Aumphure_id",
                 table: "Districts",
-                column: "AumphureId");
+                column: "Aumphure_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orderings_ProductId",

@@ -34,14 +34,25 @@ namespace ProductOrdering.Models
         public virtual Ordering? Ordering { get; set; }
 
         [NotMapped]
-        public string FullAddress
+        public string? FullAddress
         {
             get
             {
-                String address = $"{Address} ต.{District.Name_th} อ.{Aumphure.Name_th} จ.{Province.Name_th} {District.Zip_code}";
-                return address;
+                if (District != null && Aumphure != null && Province != null)
+                {
+                    String address = $"{Address} ต.{District.Name_th} อ.{Aumphure.Name_th} จ.{Province.Name_th} {District.Zip_code}";
+                    return address;
+                }
+                return null;
             }
         }
+
+        //public Receiver()
+        //{
+        //    District = new District();
+        //    Aumphure = new Aumphure();
+        //    Province = new Province();
+        //}
         public string GetAddress()
         {
             //String address = Address + " ต." + District.Name_th + " อ." + Aumphure.Name_th + " จ." + Province.Name_th + " " + District.Zip_code;

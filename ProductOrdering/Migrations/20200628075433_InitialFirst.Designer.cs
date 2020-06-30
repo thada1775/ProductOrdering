@@ -10,8 +10,8 @@ using ProductOrdering.Data;
 namespace ProductOrdering.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200426153453_first")]
-    partial class first
+    [Migration("20200628075433_InitialFirst")]
+    partial class InitialFirst
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -278,9 +278,6 @@ namespace ProductOrdering.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("AumphureId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Aumphure_id")
                         .HasColumnType("integer");
 
@@ -297,7 +294,7 @@ namespace ProductOrdering.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AumphureId");
+                    b.HasIndex("Aumphure_id");
 
                     b.ToTable("Districts");
                 });
@@ -312,7 +309,7 @@ namespace ProductOrdering.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Discount")
+                    b.Property<decimal?>("Discount")
                         .HasColumnType("numeric");
 
                     b.Property<int>("Payment")
@@ -324,14 +321,13 @@ namespace ProductOrdering.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Time")
+                    b.Property<DateTime?>("Time")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<decimal>("TotalPrice")
+                    b.Property<decimal?>("TotalPrice")
                         .HasColumnType("numeric");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("OrderingId");
@@ -362,6 +358,9 @@ namespace ProductOrdering.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
+
+                    b.Property<string>("ProductImage")
+                        .HasColumnType("text");
 
                     b.HasKey("ProductId");
 
@@ -576,7 +575,7 @@ namespace ProductOrdering.Migrations
                 {
                     b.HasOne("ProductOrdering.Models.Aumphure", "Aumphure")
                         .WithMany("Districts")
-                        .HasForeignKey("AumphureId")
+                        .HasForeignKey("Aumphure_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -591,9 +590,7 @@ namespace ProductOrdering.Migrations
 
                     b.HasOne("ProductOrdering.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Orderings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ProductOrdering.Models.Product", b =>
