@@ -34,8 +34,9 @@ namespace ProductOrdering.Controllers
         }
 
         [HttpPost]
-        public async Task<List<Ordering>> SearchOrdering(string? q,int? CategotyId)
+        public async Task<List<Ordering>> SearchOrdering(string? q,int? CategotyId, DateTime dateOrder)
         {
+            DateTime defaultDatetime = new DateTime(1, 1, 0001);    //set datetime if dateorder equals to null
             List<Ordering> orderingSelect;
             if (q != null && CategotyId != null)
             {
@@ -70,9 +71,21 @@ namespace ProductOrdering.Controllers
                 .Include(o => o.Receiver.Province)
                 .ToListAsync();
             }
+            else if (q == null && CategotyId == null && !DateTime.Equals(dateOrder, defaultDatetime))
+            {
+                orderingSelect = await _context.Orderings
+                .Include(o => o.Product)
+                .Where(o => o.Time.Date == dateOrder.Date)
+                .Include(o => o.Receiver)
+                .Include(o => o.Receiver.District)
+                .Include(o => o.Receiver.Aumphure)
+                .Include(o => o.Receiver.Province)
+                .ToListAsync();
+            }
             else
             {
                 orderingSelect = await _context.Orderings
+                .Where(o => o.Status == Status.Sending)
                 .Include(o => o.Product)
                 .Include(o => o.Receiver)
                 .Include(o => o.Receiver.District)
@@ -122,23 +135,23 @@ namespace ProductOrdering.Controllers
                 var productSelect = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == model.ProductId);
                 if (productSelect != null)
                 {
-                    if (productSelect.Amount < model.Amount)
+                    if (productSelect.Amount >= model.Amount)       //If amount of product more than stock
                     {
-                        return View();
+                        var productStock = productSelect.Amount - model.Amount;
+                        productSelect.Amount = productStock;
+                        model.TotalPrice = model.Amount * productSelect.Price;    //calculate total price
+
+                        _context.Products.Update(productSelect);
+                        await _context.Orderings.AddAsync(model);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index");
                     }
-                    var productStock = productSelect.Amount - model.Amount;
-                    productSelect.Amount = productStock;
-                    model.TotalPrice = model.Amount * productSelect.Price;    //calculate total price
-                    _context.Products.Update(productSelect);
+                    ModelState.AddModelError("Error", "จำนวนสินค้าคงเหลือไม่เพียงพอ");       //If amount of product less than stock
                 }
                 else
                 {
                     return NotFound();
                 }
-
-                await _context.Orderings.AddAsync(model);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
             var allProvince = await _context.Provinces.OrderBy(p => p.Name_th).ToListAsync();
             ViewBag.Province_id = new SelectList(allProvince, "Id", "Name_th", model.Receiver.Province_id);
@@ -197,14 +210,17 @@ namespace ProductOrdering.Controllers
                 .Include(o => o.Receiver.Aumphure)
                 .Include(o => o.Receiver.Province)
                 .OrderBy(p => p.Time).FirstOrDefaultAsync();
-                orderToPrint.Add(myOrdering);
+                myOrdering.Status = Status.CompleteSending;     //Set Status Ordering to Complete sending
+                _context.Orderings.Update(myOrdering);
+                await _context.SaveChangesAsync();
 
+                orderToPrint.Add(myOrdering);
             }
 
             var DocumentOrder = new ViewAsPdf("OrderPrint", orderToPrint)
             {
                 PageSize = Rotativa.AspNetCore.Options.Size.A4,
-                FileName = DateTime.Now.ToString("MMddyyyy_HHmmss")+".pdf"
+                FileName = DateTime.Now.ToString("MMddyyyy_HHmmss") + ".pdf"
             };
 
             return DocumentOrder;
@@ -212,11 +228,28 @@ namespace ProductOrdering.Controllers
             //return View("OrderPrint", orderToPrint);
         }
 
-        public async Task<IActionResult> OrderPreparingToPrint(string? q,int? CategoryId)
+        //public async Task<IActionResult> PrintOrder(IFormCollection orderSelect)
+        //{
+        //    var orderToPrint = await _context.Orderings
+        //        .Include(o => o.Product)
+        //        .Include(o => o.Receiver)
+        //        .Include(o => o.Receiver.District)
+        //        .Include(o => o.Receiver.Aumphure)
+        //        .Include(o => o.Receiver.Province).ToListAsync();
+        //    var DocumentOrder = new ViewAsPdf("OrderPrint", orderToPrint)
+        //    {
+        //        PageSize = Rotativa.AspNetCore.Options.Size.A4,
+        //        FileName = DateTime.Now.ToString("MMddyyyy_HHmmss") + ".pdf"
+        //    };
+
+        //    return DocumentOrder;
+        //}
+
+        public async Task<IActionResult> OrderPreparingToPrint(string? q,int? CategoryId, DateTime dateOrder)
         {
             var allCategory = await _context.Categories.ToListAsync();
             ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name");
-            var allOrdering = await SearchOrdering(q, CategoryId);
+            var allOrdering = await SearchOrdering(q, CategoryId, dateOrder);
             return View(allOrdering);
         }
     }

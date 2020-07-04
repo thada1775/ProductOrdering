@@ -30,7 +30,7 @@ namespace ProductOrdering.Models
         [Display(Name = "เงินรวม")]
         public decimal? TotalPrice { get; set; }
         [Display(Name = "เวลาที่ทำรายการ")]
-        public DateTime? Time { get; set; }
+        public DateTime Time { get; set; }
         public Receiver? Receiver { get; set; }
 
     }

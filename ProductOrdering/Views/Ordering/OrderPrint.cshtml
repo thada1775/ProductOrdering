@@ -1,8 +1,10 @@
-﻿@model IEnumerable<Ordering>
+﻿@model List<Ordering>
 @using ProductOrdering.Extensions
 @{
     Layout = null;
     //bool IsOpenTR = true;
+    int countOrder = Model.Count();
+    countOrder--;
     List<Ordering> orderings = new List<Ordering>();
 }
 <html>
@@ -12,37 +14,62 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <title>พิมพ์รายการสั่งซื้อ</title>
     <style>
-        tr.title td {
+        /*tr.title td {
             border-left: 0px solid;
             border-right: 0px solid;
+        }
+        div.label{
+            border: 3px outset;
+            width: 50%;
+            padding: 10px
+        }*/
+        .inline {
+            display: inline-block;
+            border: 3px solid black;
+            padding: 3px;
+            width: 45%;
         }
     </style>
 </head>
 <body>
     <table align="center" width="90%" border="1">
-
-        @foreach (var item in Model)
+        
+        @for (int i = 0; i <= countOrder; i++)
         {
-            orderings.Add(item);
-            if (orderings.Count() == 2)
+            orderings.Add(Model[i]);
+            if (orderings.Count() == 2 || i == countOrder)
             {
         <tr>
-            <td style="border-right: 0px solid;" height="100" width="40%">
-                @(orderings[0].Receiver.Name) @(orderings[0].Receiver.Lastname)<br>
-                เบอร์โทร @(orderings[0].Receiver.Tel) <br>
-                @(orderings[0].Receiver.FullAddress)
-            </td>
-            <td style="border-left: 0px solid;" width="10%"></td>
-            <td height="100" width="40%">
-                @(orderings[1].Receiver.Name) @(orderings[1].Receiver.Lastname)<br>
-                เบอร์โทร @(orderings[1].Receiver.Tel) <br>
-                @(orderings[1].Receiver.FullAddress)
-            </td>
-            <td width="10%"></td>
+            @foreach (var item in orderings)
+            {
+
+                <td>
+                    @(item.Receiver.Name) @(item.Receiver.Lastname)<br>
+                    เบอร์โทร @(item.Receiver.Tel) <br>
+                    @(item.Receiver.FullAddress)
+                </td>
+
+            }
         </tr>
                 orderings = new List<Ordering>();
             }
         }
-    </table>
+            @*<div>
+            @foreach (var item in Model)
+            {
+                countEnter++;
+            <div class="inline">
+                @(item.Receiver.Name) @(item.Receiver.Lastname)<br>
+                เบอร์โทร @(item.Receiver.Tel) <br>
+                @(item.Receiver.FullAddress)
+            </div>
+                if(countEnter == 2)
+                {
+                    <br>
+                    countEnter = 0;
+                }
+            }
+                </div>*@
+        </table>
 </body>
 </html>
