@@ -20,17 +20,12 @@ namespace ProductOrdering.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? q, int? CategoryId, DateTime dateOrder)
         {
+            var orderingSelect = await SearchOrdering(q, CategoryId, dateOrder);
             var currentUserId = User.GetLoggedInUserId<String>();
-            var myOrdering = await _context.Orderings.Where(o => o.UserId == currentUserId)
-                .Include(o => o.Product)
-                .Include(o => o.Receiver)
-                .Include(o => o.Receiver.District)
-                .Include(o => o.Receiver.Aumphure)
-                .Include(o => o.Receiver.Province)
-                .OrderBy(p => p.Time).ToListAsync();
-            return View(myOrdering);
+            orderingSelect = orderingSelect.Where(o => o.UserId == currentUserId).ToList();
+            return View(orderingSelect);
         }
 
         [HttpPost]
@@ -38,18 +33,18 @@ namespace ProductOrdering.Controllers
         {
             DateTime defaultDatetime = new DateTime(1, 1, 0001);    //set datetime if dateorder equals to null
             List<Ordering> orderingSelect;
-            if (q != null && CategotyId != null)
+            if (q != null && CategotyId != null && !DateTime.Equals(dateOrder, defaultDatetime))
             {
                 orderingSelect = await _context.Orderings
                 .Include(o => o.Product)
                 .Include(o => o.Receiver)
-                .Where(o => o.Receiver.Name.Contains(q) && o.Product.CategoryId == CategotyId)
+                .Where(o => o.Receiver.Name.Contains(q) && o.Product.CategoryId == CategotyId && o.Time.Date == dateOrder.Date)
                 .Include(o => o.Receiver.District)
                 .Include(o => o.Receiver.Aumphure)
                 .Include(o => o.Receiver.Province)
                 .ToListAsync();
             }
-            else if(q != null && CategotyId == null)
+            else if(q != null && CategotyId == null && DateTime.Equals(dateOrder, defaultDatetime))
             {
                 orderingSelect = await _context.Orderings
                     .Include(o => o.Receiver)
@@ -60,7 +55,7 @@ namespace ProductOrdering.Controllers
                     .Include(o => o.Receiver.Province)
                     .ToListAsync();
             }
-            else if (q == null && CategotyId != null)
+            else if (q == null && CategotyId != null && DateTime.Equals(dateOrder, defaultDatetime))
             {
                 orderingSelect = await _context.Orderings
                 .Include(o => o.Product)
@@ -82,10 +77,31 @@ namespace ProductOrdering.Controllers
                 .Include(o => o.Receiver.Province)
                 .ToListAsync();
             }
+            else if(q != null && CategotyId != null && DateTime.Equals(dateOrder, defaultDatetime))
+            {
+                orderingSelect = await _context.Orderings
+                .Include(o => o.Product)
+                .Include(o => o.Receiver)
+                .Where(o => o.Receiver.Name.Contains(q) && o.Product.CategoryId == CategotyId)
+                .Include(o => o.Receiver.District)
+                .Include(o => o.Receiver.Aumphure)
+                .Include(o => o.Receiver.Province)
+                .ToListAsync();
+            }
+            else if (q == null && CategotyId != null && !DateTime.Equals(dateOrder, defaultDatetime))
+            {
+                orderingSelect = await _context.Orderings
+                .Include(o => o.Product)
+                .Include(o => o.Receiver)
+                .Where(o => o.Product.CategoryId == CategotyId && o.Time.Date == dateOrder.Date)
+                .Include(o => o.Receiver.District)
+                .Include(o => o.Receiver.Aumphure)
+                .Include(o => o.Receiver.Province)
+                .ToListAsync();
+            }
             else
             {
                 orderingSelect = await _context.Orderings
-                .Where(o => o.Status == Status.Sending)
                 .Include(o => o.Product)
                 .Include(o => o.Receiver)
                 .Include(o => o.Receiver.District)
@@ -250,6 +266,7 @@ namespace ProductOrdering.Controllers
             var allCategory = await _context.Categories.ToListAsync();
             ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name");
             var allOrdering = await SearchOrdering(q, CategoryId, dateOrder);
+            allOrdering = allOrdering.Where(o => o.Status == Status.Sending).ToList();
             return View(allOrdering);
         }
     }
