@@ -426,3 +426,4 @@ E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\staticweb
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.dll
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.pdb
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.genruntimeconfig.cache
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Report\Index.cshtml.g.cs

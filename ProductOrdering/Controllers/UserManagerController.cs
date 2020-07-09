@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,10 @@ using ProductOrdering.Models;
 
 namespace ProductOrdering.Controllers
 {
+    [Authorize]
     public class UserManagerController : Controller
     {
+
         private readonly ApplicationDbContext _context;
         public UserManagerController(ApplicationDbContext context)
         {
@@ -51,7 +54,7 @@ namespace ProductOrdering.Controllers
         public async Task<ActionResult> FindAumphor(int? Province_id)
         {
             var prepareAllAumphure = await _context.Aumphures.Where(p => p.Province_id == Province_id).ToListAsync();
-            var allAumphure = new SelectList(prepareAllAumphure, "Id", "Name_th",0);
+            var allAumphure = new SelectList(prepareAllAumphure, "Id", "Name_th", 0);
             return Json(allAumphure);
         }
         [HttpPost]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,5 +30,19 @@ namespace ProductOrdering.Models
         [Display(Name = "รหัสผู้ใช้")]
         public String UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        [NotMapped]
+        public string? FullAddress
+        {
+            get
+            {
+                if (District != null && Aumphure != null && Province != null)
+                {
+                    String address = $"{Address} ต.{District.Name_th} อ.{Aumphure.Name_th} จ.{Province.Name_th} {District.Zip_code}";
+                    return address;
+                }
+                return null;
+            }
+        }
     }
 }

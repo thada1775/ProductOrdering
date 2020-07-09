@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ProductOrdering.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserDetail.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserDetail.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserDetail.Tel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayingAllRole)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserDetail.Address)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserDetail.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserDetail.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserDetail.Tel)
+            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayingAllRole)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserDetail.FullAddress)
+            </td>
+            <td>
+                @Html.ActionLink("ตรวจสอบ", "Edit", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
