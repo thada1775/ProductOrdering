@@ -1,0 +1,218 @@
+﻿@model ProductOrdering.Models.ViewModels.ReportViewModel;
+@using ProductOrdering.Extensions;
+@{
+    ViewData["Title"] = "ReportViewModel";
+}
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js">
+</script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+@*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    var SearchByMonth = '@Model.SearchByMonth';
+    var resultChart = null;
+    SearchByMonth = SearchByMonth.toString().toLowerCase();
+    console.log(SearchByMonth);
+    if (SearchByMonth === "false") {
+        $(document).ready(function () {
+            var _userId = '@Model.UserDetail.UserId';
+            $.ajax({
+                type: "GET",
+                data: { userId: _userId },
+                dataType: "json",
+                contentType: "application/json",
+                url: '@Url.Action("GenerateUserSalesOneYearChart", "Report")',
+                success: function (result) {
+                    resultChart = result;
+                    google.charts.load('current', {
+                        'packages': ['corechart']
+                    });
+                    google.charts.setOnLoadCallback(function () {
+                        drawChart(result);
+                    });
+                }
+            });
+        });
+
+        function drawChart(result) {
+            title = @Model.DisplayingTime.Year + 543;
+            console.log(result);
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Month');
+            data.addColumn('number', 'Quantity');
+            var dataArray = [];
+
+            $.each(result, function (i, obj) {
+                dataArray.push([obj.month, obj.quantity]);
+            });
+            data.addRows(dataArray);
+
+            var columnChartOptions = {
+                title: "ยอดขายประจำปี พ.ศ. " + title,
+                //width: 1000,
+                //height: 400,
+                bar: { groupWidth: "20%" },
+            };
+
+            var columnChart = new google.visualization.ColumnChart(document
+                .getElementById('columnchart_div'));
+
+            columnChart.draw(data, columnChartOptions);
+        }
+    }
+    else
+    {
+        $(document).ready(function () {
+            google.charts.load('current', {
+                'packages': ['corechart']
+            });
+            google.charts.setOnLoadCallback(function () {
+                var JsonResult = @Json.Serialize(Model.orderingsByMonthJson);
+                console.log(JsonResult);
+                resultChart = JsonResult;
+                drawChart(JsonResult);
+            });
+        });
+
+        function drawChart(result) {
+            console.log(result);
+            var showingTime = '@Html.Raw(Model.ShowingTime)';
+            abc = "ไก่ 2556";
+            console.log(showingTime);
+            console.log(abc);
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'NumDay');
+            data.addColumn('number', 'Quantity');
+            var dataArray = [];
+
+            $.each(result.value, function (i, obj) {
+                dataArray.push([obj.numDay, obj.quantity]);
+            });
+            data.addRows(dataArray);
+
+            var columnChartOptions = {
+                title: "ยอดขาย " + showingTime,
+                //width: 1000,
+                //height: 400,
+                bar: { groupWidth: "20%" },
+            };
+
+            var columnChart = new google.visualization.LineChart(document
+                .getElementById('columnchart_div'));
+
+            columnChart.draw(data, columnChartOptions);
+        }
+    }
+
+
+    $(function () {
+        $('.date-picker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function (dateText, inst) {
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            }
+        });
+    });
+
+
+</script>
+
+<h1>สรุปยอดการสั่งซื้อ</h1>
+<br>
+
+<div style="display: flex; justify-content: flex-end">
+    <div class="form-inline">
+        <label for="startDate">เดือน/ปี :</label> &nbsp;
+        <form asp-action="ViewReportEachUser" method="get">
+
+            <input name="dateSearch" id="startDate" class="date-picker form-control" />
+            <button type="submit" class="btn btn-primary">ค้นหา</button>
+        </form>
+    </div>
+
+</div>
+<br>
+
+<div class="card border-dark mb-3" style="max-width: 25rem;">
+    @*<div class="card-header">Header</div>*@
+    <div class="card-body">
+        <h4 class="card-title">@Html.DisplayFor(model => model.UserDetail.FirstName) @Html.DisplayFor(model => model.UserDetail.LastName)</h4>
+        <p class="card-text">
+            เบอร์: @Html.DisplayFor(model => model.UserDetail.Tel) <br>
+            ที่อยู่ : @Html.DisplayFor(model => model.UserDetail.FullAddress)
+        </p>
+    </div>
+</div>
+<div class="card text-white bg-success mb-12">
+    <center>
+        <div class="card-header"><h3>รายการสั่งซื้อที่ส่งสำเร็จ</h3></div>
+        <div class="card-body">
+            <h2 class="card-text">@Model.orderingCompleteOfUser.Count()</h2>
+        </div>
+    </center>
+</div>
+<br>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="card text-white bg-primary">
+            <div class="card-header">รายการสั่งซื้อทั้งหมด</div>
+            <div class="card-body">
+                <p class="card-text"><h4>@Model.orderings.Count()</h4></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="card bg-light">
+            <div class="card-header">รายการสั่งซื้อที่กำลังดำเนินการส่ง</div>
+            <div class="card-body">
+                <p class="card-text"><h4>@Model.orderingSendingOfUser.Count()</h4></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="card text-white bg-danger">
+            <div class="card-header">รายการสั่งซื้อที่ถูกยกเลิก</div>
+            <div class="card-body">
+                <p class="card-text"><h4>@Model.orderingCancelOfUser.Count()</h4></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div style="width: 100%; height: 400px;" id="columnchart_div"></div>
+    </div>
+</div>
+
+
+<script>
+    $(window).resize(function () {
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(function () {
+            //console.log(resultChart);
+            drawChart(resultChart);
+        });
+        
+    });
+
+</script>
+
+
+

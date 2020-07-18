@@ -13,7 +13,10 @@ namespace ProductOrdering.Models
         public bool IsEnabled { get; set; }
         public UserDetail UserDetail { get; set; }
         public ICollection<Ordering> Orderings { get; }
-        public ICollection<ApplicationUserRole> UserRoles { get; set; }
+        //public List<ApplicationUserRole> UserRoles { get; set; }
+
+        [NotMapped]
+        public List<string> Roles { get; set; }
 
         [NotMapped]
         [Display(Name = "สิทธิ์ผู้ใช้")]
@@ -21,18 +24,31 @@ namespace ProductOrdering.Models
         {
             get
             {
+
                 string allRole = "";
-                if(UserRoles != null)
+                if(Roles != null)
                 {
-                    foreach (var role in UserRoles)
+                    bool firstRole = true;
+                    foreach (var role in Roles)
                     {
-                        allRole = allRole + "," + role.Role.Name;
+
+                        if(!firstRole)
+                        {
+                            allRole = allRole + "," + role;
+                        }
+                        else
+                        {
+                            allRole = role;
+                            firstRole = false;
+                        }
+                        
                     }
                 }
                 
                 return allRole;
             }
         }
+
 
     }
 }

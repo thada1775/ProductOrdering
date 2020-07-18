@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace ProductOrdering.Extensions
 {
@@ -13,6 +17,10 @@ namespace ProductOrdering.Extensions
         {
             return enumvalue.GetType().GetMember(enumvalue.ToString()).First()
                 .GetCustomAttribute<DisplayAttribute>().GetName();
+        }
+        public static IEnumerable<T> GetValues<T>()
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>();
         }
     }
 }

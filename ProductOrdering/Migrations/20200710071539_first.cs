@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ProductOrdering.Migrations
 {
-    public partial class InitialFirst : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -137,8 +137,8 @@ namespace ProductOrdering.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -182,8 +182,8 @@ namespace ProductOrdering.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -255,7 +255,7 @@ namespace ProductOrdering.Migrations
                     Discount = table.Column<decimal>(nullable: true),
                     Amount = table.Column<int>(nullable: false),
                     TotalPrice = table.Column<decimal>(nullable: true),
-                    Time = table.Column<DateTime>(nullable: true)
+                    Time = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

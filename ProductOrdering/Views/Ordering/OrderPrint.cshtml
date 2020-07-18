@@ -42,12 +42,32 @@
         <tr>
             @foreach (var item in orderings)
             {
+                if (countOrder == 0)
+                {
+                    <td width="50%" style="padding: 20px;">
+                        <span style="font-size: 15px;">
+                            <span style="font-size: 20px;">@(item.Receiver.Name) @(item.Receiver.Lastname)</span>
+                            <br>
+                            เบอร์โทร @(item.Receiver.Tel)
+                            <br>
+                            @(item.Receiver.FullAddress)
+                        </span>
+                    </td>
+                    <td width="50%" style="padding: 20px;"></td>
+                }
+                else
+                {
+                    <td style="padding: 20px">
+                        <span style="font-size: 15px;">
+                            <span style="font-size: 20px;">@(item.Receiver.Name) @(item.Receiver.Lastname)</span>
+                            <br>
+                            เบอร์โทร @(item.Receiver.Tel)
+                            <br>
+                            @(item.Receiver.FullAddress)
+                        </span>
+                    </td>
+                }
 
-                <td>
-                    @(item.Receiver.Name) @(item.Receiver.Lastname)<br>
-                    เบอร์โทร @(item.Receiver.Tel) <br>
-                    @(item.Receiver.FullAddress)
-                </td>
 
             }
         </tr>
