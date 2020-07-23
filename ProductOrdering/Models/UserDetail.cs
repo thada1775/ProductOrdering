@@ -20,16 +20,16 @@ namespace ProductOrdering.Models
         public string Address { get; set; }
         [Display(Name = "ตำบล")]
         public int District_id { get; set; }
-        public virtual District District { get; set; }
-        public virtual Aumphure Aumphure { get; set; }
+        public virtual District? District { get; set; }
+        public virtual Aumphure? Aumphure { get; set; }
         [Display(Name = "อำเภอ")]
         public int Aumphure_id { get; set; }
-        public virtual Province Province { get; set; }
+        public virtual Province? Province { get; set; }
         [Display(Name = "จังหวัด")]
         public int Province_id { get; set; }
         [Display(Name = "รหัสผู้ใช้")]
-        public String UserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public string? UserId { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
         [NotMapped]
         public string? FullAddress

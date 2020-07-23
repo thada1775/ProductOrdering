@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductOrdering.Data;
 using ProductOrdering.Models;
 using ProductOrdering.Models.ViewModels;
+using X.PagedList;
 
 namespace ProductOrdering.Controllers
 {
@@ -25,9 +26,17 @@ namespace ProductOrdering.Controllers
             webHostEnvironment = hostEnvironment;
             _context = context;
         }
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    return View(_context.Products.Include(c => c.Category).ToList());
+        //}
+        public  IActionResult Index(int? page)//Add page parameter
         {
-            return View(_context.Products.Include(c => c.Category).ToList());
+            var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
+            int pageSize = 2; // Get 25 students for each requested page.
+            //var onePageOfStudents = Data.StudentContext.StudentList.ToPagedList(pageNumber, pageSize);
+            var oneProduct =  _context.Products.ToPagedList(pageNumber, pageSize);
+            return View(oneProduct); // Send 25 students to the page.
         }
         public async Task<IActionResult> AddProduct()
         {

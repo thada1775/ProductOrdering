@@ -472,7 +472,6 @@ namespace ProductOrdering.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("UserDetailId");
@@ -645,9 +644,7 @@ namespace ProductOrdering.Migrations
 
                     b.HasOne("ProductOrdering.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("UserDetail")
-                        .HasForeignKey("ProductOrdering.Models.UserDetail", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductOrdering.Models.UserDetail", "UserId");
                 });
 #pragma warning restore 612, 618
         }

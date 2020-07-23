@@ -11,7 +11,7 @@ namespace ProductOrdering.Models
     public class ApplicationUser : IdentityUser
     {
         public bool IsEnabled { get; set; }
-        public UserDetail UserDetail { get; set; }
+        public UserDetail UserDetail { get; set; } = new UserDetail();
         public ICollection<Ordering> Orderings { get; }
         //public List<ApplicationUserRole> UserRoles { get; set; }
 

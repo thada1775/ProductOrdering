@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<ProductOrdering.Models.Product>
+@using X.PagedList.Mvc.Core; <!--import to get HTML Helper-->
+@using X.PagedList;
 
 @{
     ViewData["Title"] = "สินค้า";
@@ -10,6 +12,15 @@
     <a class="btn btn-primary" asp-action="AddProduct">เพิ่มสินค้าชิ้นใหม่</a>
     <a class="btn btn-success" asp-controller="Category" asp-action="Index">จัดการหมวดสินค้า</a>
 </p>
+<!-- paging control for navigation to the previous page, next page, etc -->
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+    new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
+    {
+        DisplayItemSliceAndTotal = false,
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+    })
 <table class="table">
     <thead>
         <tr>
@@ -74,13 +85,23 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+        // Workaround to fix style of text for showing items .. through ..
+        // Problem related to Boostrap 4 according to issue in link below
+        // https://github.com/dncuug/X.PagedList/issues/127
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js">
 
 </script>
-    <script>
-    function createModal(url){
-          $('#modelContent').load(url);
-          $('#myModal').modal('show');
+<script>
+    function createModal(url) {
+        $('#modelContent').load(url);
+        $('#myModal').modal('show');
     }
 </script>

@@ -16,7 +16,7 @@ namespace ProductOrdering.Data
             var UserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             var RoleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
-            string[] roles = new String[] { "Administrator", "User" };
+            string[] roles = new String[] { "Administrator", "User", "Printer" };
 
             foreach(var role in roles)
             {

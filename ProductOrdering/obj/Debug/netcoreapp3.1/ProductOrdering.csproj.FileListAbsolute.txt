@@ -382,9 +382,6 @@ E:\respository\ProductOrdering\ProductOrdering\bin\Debug\netcoreapp3.1\runtimes\
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.csprojAssemblyReference.cache
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.AssemblyInfoInputs.cache
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.AssemblyInfo.cs
-E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.csproj.CoreCompileInputs.cache
-E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.MvcApplicationPartsAssemblyInfo.cs
-E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.MvcApplicationPartsAssemblyInfo.cache
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.RazorAssemblyInfo.cache
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.RazorAssemblyInfo.cs
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.TagHelpers.input.cache
@@ -433,3 +430,15 @@ E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Are
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Report\ViewReportEachUser.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ResendEmailConfirmation.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ConfirmRequire.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\UserManagement\Index.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\UserManagement\EditUser.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\FirstRegister.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\UserManagement\ManageUserRoles.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.csproj.CoreCompileInputs.cache
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.MvcApplicationPartsAssemblyInfo.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOrdering.MvcApplicationPartsAssemblyInfo.cache
+E:\respository\ProductOrdering\ProductOrdering\bin\Debug\netcoreapp3.1\X.PagedList.dll
+E:\respository\ProductOrdering\ProductOrdering\bin\Debug\netcoreapp3.1\X.PagedList.Mvc.Core.dll
+E:\respository\ProductOrdering\ProductOrdering\bin\Debug\netcoreapp3.1\X.PagedList.Web.Common.dll

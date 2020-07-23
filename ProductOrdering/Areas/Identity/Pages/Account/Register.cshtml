@@ -2,66 +2,232 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
+    Layout = null;
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+@*<div class="row">
+        <div class="col-md-4">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h4>Create a new account.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+        <div class="col-md-6 col-md-offset-2">
+            <section>
+                <h4>Use another service to register.</h4>
+                <hr />
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
                         <div>
                             <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
+                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                for details on setting up this ASP.NET application to support logging in via external services.
                             </p>
                         </div>
-                    </form>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
                 }
-            }
-        </section>
+            </section>
+        </div>
+    </div>*@
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<link rel="icon" type="image/png" href="~/Login_v19/images/icons/favicon.ico" />
+<!--===============================================================================================-->
+@*<link rel="stylesheet" type="text/css" href="~/Login_v19/vendor/bootstrap/css/bootstrap.min.css">*@
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/Login_v19/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/Login_v19/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/Login_v19/vendor/animate/animate.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/Login_v19/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/Login_v19/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/Login_v19/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/Login_v19/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/Login_v19/css/util.css">
+<link rel="stylesheet" type="text/css" href="~/Login_v19/css/main.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="login100-form validate-form">
+                <span class="login100-form-title p-b-33">
+                    ลงทะเบียน
+                </span>
+                <div class="form-group">
+                    <span>อีเมล</span>
+                    <div class="validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        <input asp-for="Input.Email" readonly class="form-control" type="text" placeholder="Email">
+                    </div>
+                </div>
+                <input asp-for="Input.ConfirmPassword" type="hidden" value="@Model.Input.ConfirmPassword" />
+                <div class="form-group">
+                    <span>รหัสผ่าน</span>
+                    <div class="validate-input" data-validate="Password is required">
+                        <input asp-for="Input.Password" class="form-control" readonly type="password" value="@Model.Input.Password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span style="font-family: OpenSans-Regular;">ชื่อ</span>
+                    <input asp-for="Input.UserDetail.FirstName" class="form-control" placeholder="ชื่อ" />
+                </div>
+                <div class="form-group">
+                    <span style="font-family: OpenSans-Regular;">นามสกุล</span>
+                    <input asp-for="Input.UserDetail.LastName" class="form-control" placeholder="นามสกุล">
+                </div>
+                <div class="form-group">
+                    <span style="font-family: OpenSans-Regular;">เบอร์โทรศัพท์</span>
+                    <input asp-for="Input.UserDetail.Tel" class="form-control" placeholder="เบอร์โทรศัพท์">
+                </div>
+                <div class="form-group">
+                    <span style="font-family: OpenSans-Regular;">ที่อยู่</span>
+                    <div data-validate="Password is required">
+                        <input asp-for="Input.UserDetail.Address" class="form-control" placeholder="ที่อยู่">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span style="font-family: OpenSans-Regular;">จังหวัด</span>
+                    <select id="Province_id" onchange="FindAumphor()" asp-for="Input.UserDetail.Province_id" asp-items="ViewBag.Province_id" class="form-control" placeholder="จังหวัด"></select>
+                </div>
+                <div class="form-group">
+                    <span style="font-family: OpenSans-Regular;">อำเภอ</span>
+                    <select id="Aumphure_id" asp-for="Input.UserDetail.Aumphure_id" onchange="FindDistrict()" asp-items="ViewBag.Aumphure_id" class="form-control" placeholder="อำเภอ"></select>
+                </div>
+                <div class="form-group">
+                    <span style="font-family: OpenSans-Regular;">ตำบล</span>
+                    <select id="District_id" asp-for="Input.UserDetail.District_id" class="form-control" asp-items="ViewBag.District_id" placeholder="ตำบล"></select>
+                </div>
+                <div class="container-login100-form-btn m-t-20">
+                    <button type="submit" class="login100-form-btn" style="background-color: orange;">
+                        ลงทะเบียน
+                    </button>
+                </div>
+
+                <div class="text-center p-t-45 p-b-4">
+                    <span class="txt1">
+                        มีบัญชีอยุ่แล้ว ?
+                    </span>
+
+                    <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="txt2 hov1">
+                        เข้าสู่ระบบ
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+
+
+<!--===============================================================================================-->
+<script src="~/Login_v19/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/Login_v19/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/Login_v19/vendor/bootstrap/js/popper.js"></script>
+<script src="~/Login_v19/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/Login_v19/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/Login_v19/vendor/daterangepicker/moment.min.js"></script>
+<script src="~/Login_v19/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="~/Login_v19/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="~/Login_v19/js/main.js"></script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+<script type="text/javascript">
+    function FindAumphor() {
+        var procemessage = "<option value='0'> กำลังค้นหา...</option>";
+        $("#Aumphure_id").html(procemessage).show();
+        $("#District_id").html(procemessage).show();
+        //var url = "/UserManager/FindAumphor";
+        var _Province_id = $('#Province_id').val();
+        //console.log(_Province_id);
+        $.ajax({
+            url: '@Url.Action("FindAumphor", "ThaiPostHelper")',
+            data: { Province_id: _Province_id },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                var markup = "<option value='0'>เลือกอำเภอ</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
+                }
+                $("#Aumphure_id").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+    }
+
+    function FindDistrict() {
+        var procemessage = "<option value='0'> กำลังค้นหา...</option>";
+        $("#District_id").html(procemessage).show();
+
+        var _Aumphure_id = $('#Aumphure_id').val();
+        $.ajax({
+            url: '@Url.Action("FindDistrict", "ThaiPostHelper")',
+            data: { Aumphure_id: _Aumphure_id },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                var markup = "<option value='0'>เลือกตำบล</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
+                }
+                $("#District_id").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+</script>

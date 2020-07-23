@@ -1,0 +1,30 @@
+﻿@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "จัดการผู้ใช้";
+}
+
+<h1>ผู้ใช้ทั้งหมด</h1>
+
+<div class="row">
+    
+        @foreach (var user in Model)
+        {
+            <div class="col-sm-6">
+                <div class="card" style="margin-bottom: 10px;">
+                    <div class="card-header">
+                        User Id : @user.Id
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title"> @user.UserDetail.FirstName &nbsp; @user.UserDetail.LastName </div>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="EditUser" asp-controller="UserManagement"
+                           asp-route-id="@user.Id" class="btn btn-primary">แก้ไข</a>
+                        <a href="#" class="btn btn-danger">ลบ</a>
+                    </div>
+
+                </div>
+            </div>
+        } 
+</div>
+
