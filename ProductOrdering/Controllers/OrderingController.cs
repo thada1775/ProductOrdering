@@ -11,6 +11,7 @@ using ProductOrdering.Data;
 using ProductOrdering.Extensions;
 using ProductOrdering.Models;
 using Rotativa.AspNetCore;
+using X.PagedList;
 
 namespace ProductOrdering.Controllers
 {
@@ -23,12 +24,29 @@ namespace ProductOrdering.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(string? q, int? CategoryId, DateTime dateOrder)
+        //public async Task<IActionResult> Index(string? q, int? CategoryId, DateTime dateOrder)
+        //{
+        //    var orderingSelect = await SearchOrdering(q, CategoryId, dateOrder);
+        //    var currentUserId = User.GetLoggedInUserId<String>();
+        //    orderingSelect = orderingSelect.Where(o => o.UserId == currentUserId).ToList();
+        //    return View(orderingSelect);
+        //}
+        public async Task<IActionResult> Index(int? page, string? q, int? CategoryId, DateTime dateOrder)
         {
+            var allCategory = await _context.Categories.ToListAsync();
+            DateTime defaultDatetime = new DateTime(1, 1, 0001);
+            ViewBag.q = q;  //set current search to view
+            if (dateOrder != new DateTime(1, 1, 0001)) ViewBag.dateOrder = dateOrder.ToString("yyyy-MM-dd"); //set current search to view
+            if (ViewBag.CategorySelect == null) ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name");
+            else ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name", CategoryId);    //set current search to view
+
+            var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
+            int pageSize = 2; // Get total students for each requested page.
+            
             var orderingSelect = await SearchOrdering(q, CategoryId, dateOrder);
             var currentUserId = User.GetLoggedInUserId<String>();
-            orderingSelect = orderingSelect.Where(o => o.UserId == currentUserId).ToList();
-            return View(orderingSelect);
+            var orderpage = await orderingSelect.Where(o => o.UserId == currentUserId).ToList().ToPagedListAsync(pageNumber,pageSize);
+            return View(orderpage);
         }
 
         [HttpPost]
