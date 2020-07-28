@@ -11,7 +11,7 @@ using ProductOrdering.Models;
 
 namespace ProductOrdering.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Administrator")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;

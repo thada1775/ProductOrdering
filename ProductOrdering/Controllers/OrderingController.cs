@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,20 +27,14 @@ namespace ProductOrdering.Controllers
         {
             _context = context;
         }
-        //public async Task<IActionResult> Index(string? q, int? CategoryId, DateTime dateOrder)
-        //{
-        //    var orderingSelect = await SearchOrdering(q, CategoryId, dateOrder);
-        //    var currentUserId = User.GetLoggedInUserId<String>();
-        //    orderingSelect = orderingSelect.Where(o => o.UserId == currentUserId).ToList();
-        //    return View(orderingSelect);
-        //}
+
         public async Task<IActionResult> Index(int? page, string? q, int? CategoryId, DateTime dateOrder)
         {
             var allCategory = await _context.Categories.ToListAsync();
             DateTime defaultDatetime = new DateTime(1, 1, 0001);
             ViewBag.q = q;  //set current search to view
             if (dateOrder != new DateTime(1, 1, 0001)) ViewBag.dateOrder = dateOrder.ToString("yyyy-MM-dd"); //set current search to view
-            if (ViewBag.CategorySelect == null) ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name");
+            if (CategoryId == null) ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name");
             else ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name", CategoryId);    //set current search to view
 
             var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
@@ -133,14 +130,16 @@ namespace ProductOrdering.Controllers
             }
             return orderingSelect;
         }
+        
         public async Task<IActionResult> AddOrdering()
         {
             var allProvince = await _context.Provinces.OrderBy(p => p.Name_th).ToListAsync();
             ViewBag.Province_id = new SelectList(allProvince, "Id", "Name_th");
             return View();
         }
+
         [HttpGet]
-        public async Task<IActionResult> AddOrdering(int receiverId)
+        public async Task<IActionResult> AddOrdering(int receiverId)    //this method for user select already reciever
         {
             var allProvince = await _context.Provinces.OrderBy(p => p.Name_th).ToListAsync();
             ViewBag.Province_id = new SelectList(allProvince, "Id", "Name_th");
@@ -158,6 +157,7 @@ namespace ProductOrdering.Controllers
 
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddOrdering(Ordering model)
@@ -181,6 +181,11 @@ namespace ProductOrdering.Controllers
                         _context.Products.Update(productSelect);
                         await _context.Orderings.AddAsync(model);
                         await _context.SaveChangesAsync();
+
+                        model = await _context.Orderings.Where(o => o.OrderingId == model.OrderingId).Include(o => o.Product).FirstOrDefaultAsync();
+                        var userDetail = await _context.UserDetails.Where(u => u.UserId == currentUserId).FirstOrDefaultAsync();
+                        string message = $"คุณ{userDetail.FirstName} {userDetail.LastName} ได้เพิ่มรายการสั่งซื้อ {model.Product.Name} จำนวน {model.Amount}";
+                        lineNotify(message);
                         return RedirectToAction("Index");
                     }
                     ModelState.AddModelError("Error", "จำนวนสินค้าคงเหลือไม่เพียงพอ");       //If amount of product less than stock
@@ -233,6 +238,7 @@ namespace ProductOrdering.Controllers
             return Json(allDistrict);
         }
 
+        [Authorize(Roles = "Administrator, Printer")]
         public async Task<IActionResult> PrintOrder(IFormCollection orderSelect)
         {
             List<Ordering> orderToPrint = new List<Ordering>();
@@ -265,30 +271,44 @@ namespace ProductOrdering.Controllers
             //return View("OrderPrint", orderToPrint);
         }
 
-        //public async Task<IActionResult> PrintOrder(IFormCollection orderSelect)
-        //{
-        //    var orderToPrint = await _context.Orderings
-        //        .Include(o => o.Product)
-        //        .Include(o => o.Receiver)
-        //        .Include(o => o.Receiver.District)
-        //        .Include(o => o.Receiver.Aumphure)
-        //        .Include(o => o.Receiver.Province).ToListAsync();
-        //    var DocumentOrder = new ViewAsPdf("OrderPrint", orderToPrint)
-        //    {
-        //        PageSize = Rotativa.AspNetCore.Options.Size.A4,
-        //        FileName = DateTime.Now.ToString("MMddyyyy_HHmmss") + ".pdf"
-        //    };
-
-        //    return DocumentOrder;
-        //}
-
-        public async Task<IActionResult> OrderPreparingToPrint(string? q,int? CategoryId, DateTime dateOrder)
+        [Authorize(Roles = "Administrator, Printer")]
+        public async Task<IActionResult> OrderPreparingToPrint(int? page ,string? q,int? CategoryId, DateTime dateOrder)
         {
             var allCategory = await _context.Categories.ToListAsync();
-            ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name");
+            DateTime defaultDatetime = new DateTime(1, 1, 0001);
+            ViewBag.q = q;  //set current search to view
+            if (dateOrder != new DateTime(1, 1, 0001)) ViewBag.dateOrder = dateOrder.ToString("yyyy-MM-dd"); //set current search to view
+            if (CategoryId == null) ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name");
+            else ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name", CategoryId);    //set current search to view
+
+            var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
+            int pageSize = 2; // Get total students for each requested page.
             var allOrdering = await SearchOrdering(q, CategoryId, dateOrder);
-            allOrdering = allOrdering.Where(o => o.Status == Status.Sending).ToList();
-            return View(allOrdering);
+            var orderingPage = await allOrdering.Where(o => o.Status == Status.Sending).ToPagedListAsync(pageNumber, pageSize);
+            return View(orderingPage);
+        }
+        private void lineNotify(string msg)
+        {
+            string token = "9pPaWcL6N6BsqhKhmCSUzkFAsQYRDVXhElS1diJCFpM";
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create("https://notify-api.line.me/api/notify");
+                var postData = string.Format("message={0}", msg);
+                var data = Encoding.UTF8.GetBytes(postData);
+
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = data.Length;
+                request.Headers.Add("Authorization", "Bearer " + token);
+
+                using (var stream = request.GetRequestStream()) stream.Write(data, 0, data.Length);
+                var response = (HttpWebResponse)request.GetResponse();
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }

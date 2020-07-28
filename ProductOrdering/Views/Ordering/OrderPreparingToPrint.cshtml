@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<Ordering>
 @using ProductOrdering.Extensions
+@using X.PagedList.Mvc.Core; <!--import to get HTML Helper-->
+@using X.PagedList;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @{
     ViewData["Title"] = "OrderPreparingToPrint";
 }
@@ -7,14 +10,14 @@
 <h1>พิมพ์ Label รายการสั่งซื้อ</h1>
 
 <div class="form-inline">
-    <form asp-action="OrderPreparingToPrint" method="post">
-        <input type="text" name="q" class="form-control" />
+    <form asp-action="OrderPreparingToPrint" method="get">
+        <input type="text" name="q" value="@ViewBag.q" class="form-control" />
         <span style="margin-left: 10px;">หมวดสินค้า</span>
         <select class="form-control" name="CategoryId" asp-items="ViewBag.CategoryId">
             <option value="">ทั้งหมด</option>
         </select>
         <span style="margin-left: 10px;">วันที่</span>
-        <input type="date" name="dateOrder" class="form-control" />
+        <input type="date" name="dateOrder" value="@ViewBag.dateOrder" class="form-control" />
         <button type="submit" class="btn btn-info">ค้นหา</button>
     </form>
 </div>
@@ -110,6 +113,32 @@
         </tbody>
     </table>
 </form>
+<!-- paging control for navigation to the previous page, next page, etc -->
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("OrderPreparingToPrint",
+    new
+    {
+        page = page,
+        q = HttpContextAccessor.HttpContext.Request.Query["q"].ToString(),
+        CategoryId = HttpContextAccessor.HttpContext.Request.Query["CategoryId"]
+    }),
+    new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
+    {
+        DisplayItemSliceAndTotal = false,
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+
+    })
+@section Scripts{
+    <script>
+        // Workaround to fix style of text for showing items .. through ..
+        // Problem related to Boostrap 4 according to issue in link below
+        // https://github.com/dncuug/X.PagedList/issues/127
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
     function toggle(source) {
@@ -118,7 +147,7 @@
         for (var i = 0, n = checkboxes.length; i < n; i++) {
             checkboxes[i].checked = source.checked;
         }
-        
+
     }
 
     function CheckOrder() {
@@ -126,7 +155,7 @@
         //console.log(checkBoxes);
         var checkbox = document.querySelector('input[name="OrderingId"]:checked');
         // console.log(checkbox);
-        
+
         if (!checkbox) {
             alert("โปรดเลือกรายการสั่งซื้อก่อนพิมพ์");
             return false;
@@ -154,7 +183,7 @@
     //            type: "POST",
     //            url: "PrintOrder",
     //            data: postData,
-                
+
     //            success: function () {
     //                window.location.reload();
     //            },
@@ -163,6 +192,6 @@
     //        });
     //    });
     //});
-    
+
 </script>
 

@@ -13,7 +13,7 @@ using ProductOrdering.Models.ViewModels;
 
 namespace ProductOrdering.Controllers
 {
-    [Authorize(Roles = "Printer, Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class UserManagementController : Controller
     {
         private readonly ApplicationDbContext _context;

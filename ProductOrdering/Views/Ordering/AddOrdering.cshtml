@@ -1,4 +1,5 @@
 ﻿@model ProductOrdering.Models.Ordering
+@using ProductOrdering.Models
 @{
     ViewData["Title"] = "เพิ่มรายการสั่งซื้อ";
 }
@@ -23,60 +24,91 @@
         @ViewData.ModelState["Error"].Errors.First().ErrorMessage
     </div>
 }
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-action="AddOrdering">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<input type="hidden" asp-for="UserId" value="0" />
-                <input type="hidden" asp-for="TotalPrice" value="0" />
-                <input type="hidden" asp-for="TotalPrice" value="0" />*@
-            <div class="form-group">
-                <label asp-for="ProductId" class="control-label"></label>
-                <a class="btn btn-primary" id="ProductListModal" onclick="createModal()">เลือกสินค้า</a>
-                @*<select asp-for="ProductId" class ="form-control" asp-items="ViewBag.ProductId"></select>*@
-                @*<label class="control-label" name="ProductSelectedText"></label>*@
-
-                <input type="hidden" asp-for="ProductId" />
-            </div>
-            <div class="container">
+<div class="row justify-content-center">
+    <form method="post" asp-action="AddOrdering" class="border border-primary p-5 col-10">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row justify-content-center">
+            <div style="margin-top: 10px" class="container">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <img id="ProductImageSource" class="img-thumbnail rounded float-right"
-                             height="100" width="100"
-                             asp-append-version="true" />
-                    </div>
                     <div class="col-sm-6">
                         <label id="ProductName" />
                     </div>
+                    <div class="col-sm-6">
+                        <img src="~/imageSource/DefaultImage/photo.png" id="ProductImageSource" class="img-thumbnail rounded float-right"
+                             height="100" width="100"
+                             asp-append-version="true" />
+                    </div>
                 </div>
             </div>
+            <div style="text-align: left;" class="col-4">
+                <div class="form-inline">
+                    <label style="margin-right: 10px;" asp-for="ProductId" class="control-label"></label>
+                    <a class="btn btn-primary" style="color: white" id="ProductListModal" onclick="createModal()">เลือกสินค้า</a>
+                    <input type="hidden" asp-for="ProductId" />
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Payment" class="control-label"></label>
-                <select asp-for="Payment" asp-items="@Html.GetEnumSelectList<Payment>()" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group col-4 row">
+            <label asp-for="Payment" class="col-form-label"></label>
+            <div>
+                <select asp-for="Payment" asp-items="@Html.GetEnumSelectList<Payment>()" class="custom-select"></select>
                 <span asp-validation-for="Payment" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        @*<div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <select asp-for="Status" asp-items="@Html.GetEnumSelectList<Status>()" class="form-control"></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
+            </div>*@
+        <input type="hidden" asp-for="Status" value="@Status.Sending" />
+        <div class="row">
+            <div class="form-group col-6">
+                <label asp-for="Discount" class="col-form-label"></label>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                        </div>
+                        <input asp-for="Discount" class="form-control">
+                        <span asp-validation-for="Discount" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-6">
+                <label asp-for="Amount" class="col-form-label"></label>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                        </div>
+                        <input asp-for="Amount" class="form-control">
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="form-group">
                 <label asp-for="Discount" class="control-label"></label>
                 <input asp-for="Discount" class="form-control" />
                 <span asp-validation-for="Discount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+        @*<div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
                 <input asp-for="Amount" class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                    <label asp-for="TotalPrice" class="control-label"></label>
-                    <input asp-for="TotalPrice" class="form-control" />
-                    <span asp-validation-for="TotalPrice" class="text-danger"></span>
-                </div>*@
-            <div class="form-group">
+            </div>*@
+        @*<div class="form-group">
+                <label asp-for="TotalPrice" class="control-label"></label>
+                <input asp-for="TotalPrice" class="form-control" />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+            </div>*@
+        @*<div class="form-group">
                 <label asp-for="Receiver.Name" class="control-label"></label>
                 <input asp-for="Receiver.Name" class="form-control" />
                 <span asp-validation-for="Receiver.Name" class="text-danger"></span>
@@ -85,8 +117,69 @@
                 <label asp-for="Receiver.Lastname" class="control-label"></label>
                 <input asp-for="Receiver.Lastname" class="form-control" />
                 <span asp-validation-for="Receiver.Lastname" class="text-danger"></span>
+            </div>*@
+        <div class="row">
+            <div class="form-group col-6">
+                <label asp-for="Receiver.Name" class="col-form-label"></label>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                        </div>
+                        <input asp-for="Receiver.Name" class="form-control">
+                        <span asp-validation-for="Receiver.Name" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-6">
+                <label asp-for="Receiver.Lastname" class="col-form-label"></label>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                        </div>
+                        <input asp-for="Receiver.Lastname" class="form-control">
+                        <span asp-validation-for="Receiver.Lastname" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-6">
+                <label asp-for="Receiver.Tel" class="col-form-label"></label>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                        </div>
+                        <input asp-for="Receiver.Tel" class="form-control">
+                        <span asp-validation-for="Receiver.Tel" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Receiver.Address" class="col-form-label"></label>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-address-card"></i>
+                            </div>
+                        </div>
+                        <input asp-for="Receiver.Address" class="form-control">
+                        <span asp-validation-for="Receiver.Address" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<div class="form-group">
                 <label asp-for="Receiver.Tel" class="control-label"></label>
                 <input asp-for="Receiver.Tel" class="form-control" />
                 <span asp-validation-for="Receiver.Tel" class="text-danger"></span>
@@ -95,29 +188,39 @@
                 <label asp-for="Receiver.Address" class="control-label"></label>
                 <input asp-for="Receiver.Address" class="form-control" />
                 <span asp-validation-for="Receiver.Address" class="text-danger"></span>
+            </div>*@
+        <div class="row">
+            <div class="form-group col-4">
+                <label asp-for="Receiver.Province_id" class="col-form-label"></label>
+                <div>
+                    <select asp-for="Receiver.Province_id" id="Province_id" onchange="FindAumphor()" class="custom-select" asp-items="ViewBag.Province_id">
+                        <option value='0'>กรุณาเลือกจังหวัด</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Receiver.Province_id" class="control-label"></label>
-                <select asp-for="Receiver.Province_id" id="Province_id" onchange="FindAumphor()" class="form-control" asp-items="ViewBag.Province_id">
-                    <option value='0'>กรุณาเลือกจังหวัด</option>
-                </select>
+            <div class="form-group col-4">
+                <label asp-for="Receiver.Aumphure_id" class="col-form-label"></label>
+                <div>
+                    <select asp-for="Receiver.Aumphure_id" id="Aumphure_id" onchange="FindDistrict()" asp-items="ViewBag.Aumphure_id" class="custom-select">
+                        <option value='0'>กรุณาเลือกอำเภอ</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Receiver.Aumphure_id" class="control-label"></label>
-                <select asp-for="Receiver.Aumphure_id" id="Aumphure_id" onchange="FindDistrict()" asp-items="ViewBag.Aumphure_id" class="form-control"></select>
+            <div class="form-group col-4">
+                <label asp-for="Receiver.District_id" class="col-form-label"></label>
+                <div>
+                    <select asp-for="Receiver.District_id" id="District_id" class="custom-select" asp-items="ViewBag.District_id">
+                        <option value='0'>กรุณาเลือกตำบล</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Receiver.District_id" class="control-label"></label>
-                <select asp-for="Receiver.District_id" id="District_id" class="form-control" asp-items="ViewBag.District_id"></select>
-            </div>
+        </div>
 
-            <div class="form-group">
-                <input type="submit" value="สั่งซื้อ" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        <div style="text-align: center;" class="form-group">
+            <input type="submit" value="สั่งซื้อ" class="btn btn-primary" />
+        </div>
+    </form>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

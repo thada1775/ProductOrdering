@@ -38,12 +38,34 @@ namespace ProductOrdering.Controllers
             var oneProduct =  _context.Products.ToPagedList(pageNumber, pageSize);
             return View(oneProduct); // Send 25 students to the page.
         }
+
+        [Authorize(Roles ="Administrator")]
         public async Task<IActionResult> AddProduct()
         {
             var allCategory = await _context.Categories.ToListAsync();
             ViewBag.Categories = new SelectList(allCategory, "CategoryId", "Name");
             return View();
         }
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> AddProduct(ProductViewModel model)
+        {
+            string uniqueFileName = UploadedFile(model);
+            var currentProduct = new Product
+            {
+                Name = model.Name,
+                Amount = model.Amount,
+                Price = model.Price,
+                CategoryId = model.CategoryId,
+                ProductImage = uniqueFileName
+            };
+
+            _context.Products.Add(currentProduct);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditProduct(int? id)
         {
             var currentProduct = await _context.Products.FirstOrDefaultAsync(c => c.ProductId == id);
@@ -64,6 +86,7 @@ namespace ProductOrdering.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditProduct(int id , [Bind("ProductId,Name,Amount,Price,CategoryId,ProductImage")] ProductViewModel model)
         {
             var currentProduct = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == model.ProductId);
@@ -86,6 +109,7 @@ namespace ProductOrdering.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var currentProduct = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
@@ -96,31 +120,8 @@ namespace ProductOrdering.Controllers
             }
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductViewModel model)
-        {
-            string uniqueFileName = UploadedFile(model);
-            var currentProduct = new Product
-            {
-                Name = model.Name,
-                Amount = model.Amount,
-                Price = model.Price,
-                CategoryId = model.CategoryId,
-                ProductImage = uniqueFileName
-            };
-            
-            _context.Products.Add(currentProduct);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-        //public async Task<IActionResult> AddProduct(Product model)
-        //{
-        //    string uniqueFileName = UploadedFile(model);
-        //    model.ProductImage = model.ProductImage = uniqueFileName;
-        //    _context.Products.Add(model);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction("Index");
-        //}
+        
+        [Authorize(Roles = "Administrator")]
         private string UploadedFile(ProductViewModel model)
         {
             string uniqueFileName = null;

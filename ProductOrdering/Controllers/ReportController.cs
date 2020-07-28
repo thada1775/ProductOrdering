@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ using ProductOrdering.Models.ViewModels;
 
 namespace ProductOrdering.Controllers
 {
+    [Authorize]
     public class ReportController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,6 +29,8 @@ namespace ProductOrdering.Controllers
             _usermanager = usermanager;
             _context = context;
         }
+
+        [Authorize(Roles ="Administrator")]
         public async Task<IActionResult> Index()
         {
             var roleManager = _serviceProvider.GetService<IdentityRole>();
