@@ -442,3 +442,10 @@ E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\ProductOr
 E:\respository\ProductOrdering\ProductOrdering\bin\Debug\netcoreapp3.1\X.PagedList.dll
 E:\respository\ProductOrdering\ProductOrdering\bin\Debug\netcoreapp3.1\X.PagedList.Mvc.Core.dll
 E:\respository\ProductOrdering\ProductOrdering\bin\Debug\netcoreapp3.1\X.PagedList.Web.Common.dll
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_Layout.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_MainNavigation.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_TopNavigation.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_Footer.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_Scripts.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_Styles.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_LoginPartial.cshtml.g.cs

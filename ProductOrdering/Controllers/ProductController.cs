@@ -16,7 +16,7 @@ using X.PagedList;
 
 namespace ProductOrdering.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Administrator")]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;

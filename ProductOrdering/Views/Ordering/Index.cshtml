@@ -5,14 +5,17 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @{
     ViewData["Title"] = "รายการสั่งซื้อ";
-
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
 <h1>รายการสั่งซื้อ</h1>
 
 <p>
 
-    <a class="btn btn-success fa fa-plus" style="color:white" asp-controller="Ordering" asp-action="AddOrdering" aria-hidden="true"> เพิ่มรายการสั่งซื้อ</a>
+    <a class="btn btn-success" style="color:white" asp-controller="Ordering" asp-action="AddOrdering" aria-hidden="true">
+        <i class="fa fa-plus"></i>
+        เพิ่มรายการสั่งซื้อ
+    </a>
 
 </p>
 <p>

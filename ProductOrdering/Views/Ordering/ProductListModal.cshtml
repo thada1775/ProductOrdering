@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "รายการสินค้า";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
     <h1>รายการสินค้า</h1>
 
@@ -52,7 +53,7 @@
                         @Html.DisplayFor(modelItem => item.Category.Name)
                     </td>
                     <td>
-                        <a class="btn btn-success" asp-action="SelectProduct" asp-route-id="@item.ProductId">เลือก</a>
+                        <a class="btn btn-success" style="color: white;" asp-action="SelectProduct" asp-route-id="@item.ProductId">เลือก</a>
                 </tr>
             }
         </tbody>
