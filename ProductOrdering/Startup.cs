@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProductOrdering.Models;
 using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace ProductOrdering
 {
@@ -57,6 +58,10 @@ namespace ProductOrdering
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
             app.UseStaticFiles();
 
             app.UseRouting();
