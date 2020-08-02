@@ -19,15 +19,15 @@ namespace ProductOrdering.Models
         public string Tel { get; set; }
         [Display(Name = "ที่อยู่")]
         public string Address { get; set; }
-        [Display(Name = "รหัสตำบล")]
+        [Display(Name = "ตำบล")]
         public int District_id { get; set; }
         public virtual District? District { get; set; }
 
         public virtual Aumphure? Aumphure { get; set; }
-        [Display(Name = "รหัสอำเภอ")]
+        [Display(Name = "อำเภอ")]
         public int Aumphure_id { get; set; }
         public virtual Province? Province { get; set; }
-        [Display(Name = "รหัสจังหวัด")]
+        [Display(Name = "จังหวัด")]
         public int Province_id { get; set; }
         [Display(Name = "รหัสรายการสั่งซื้อ")]
         public int OrderingId { get; set; }

@@ -2,7 +2,7 @@
 <div class="modal-header">
     <h4 class="modal-title">รายละเอียด</h4>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true"><i class="fa fa-times-circle">X</i></span>
+        <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
     </button>
 </div>
 <div class="modal-body">
@@ -51,7 +51,7 @@
                             @Html.DisplayFor(modelItem => item.Category.Name)
                         </td>
                         <td>
-                            <a data-dismiss="modal" class="btn btn-success" onclick="SetProductId(@item.ProductId)" id="CallBackProduct">เลือก</a>
+                            <a data-dismiss="modal" style="color: white;" class="btn btn-success" onclick="SetProductId(@item.ProductId)" id="CallBackProduct">เลือก</a>
                     </tr>
                 }
             </tbody>
@@ -73,7 +73,7 @@
 
         var returnedvalue = "";
         returnedvalue = $('#callbackProductId').val();
-        console.log(returnedvalue);
+        //console.log(returnedvalue);
         //document.getElementById("ProductId").value = returnedvalue;
 
         $.ajax({

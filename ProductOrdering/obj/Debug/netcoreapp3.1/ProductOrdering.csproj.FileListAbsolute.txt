@@ -449,3 +449,4 @@ E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Vie
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_Scripts.cshtml.g.cs
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_Styles.cshtml.g.cs
 E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminLTE\_LoginPartial.cshtml.g.cs
+E:\respository\ProductOrdering\ProductOrdering\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\AccessDenied.cshtml.g.cs

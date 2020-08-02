@@ -211,11 +211,11 @@ namespace ProductOrdering.Controllers
             var allProduct = await _context.Products.Include(p => p.Category).ToListAsync();
             return PartialView(allProduct);
         }
-        public async Task<IActionResult> ProductListModal()
-        {
-            var allProduct = await _context.Products.Include(p => p.Category).ToListAsync();
-            return View(allProduct);
-        }
+        //public async Task<IActionResult> ProductListModal()
+        //{
+        //    var allProduct = await _context.Products.Include(p => p.Category).ToListAsync();
+        //    return View(allProduct);
+        //}
         [HttpPost]
         public async Task<IActionResult> FindProductSelect(int? ProductId)
         {
