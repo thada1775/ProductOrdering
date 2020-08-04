@@ -31,7 +31,9 @@ namespace ProductOrdering.Models
         public decimal? TotalPrice { get; set; }
         [Display(Name = "เวลาที่ทำรายการ")]
         public DateTime Time { get; set; }
-        public Receiver? Receiver { get; set; }
+        public Receiver? Receiver { get; set; }     
+        public string? CancelUserId { get; set; }
+        public virtual ApplicationUser? UserCancel { get; set; }
 
     }
     public enum Payment
@@ -53,6 +55,5 @@ namespace ProductOrdering.Models
 
         [Display(Name = "ยกเลิกรายการสั่งซื้อ")]
         CancleOrder
-
     }
 }

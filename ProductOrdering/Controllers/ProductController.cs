@@ -33,7 +33,7 @@ namespace ProductOrdering.Controllers
         public  IActionResult Index(int? page)//Add page parameter
         {
             var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
-            int pageSize = 2; // Get 25 students for each requested page.
+            int pageSize = 4; // Get 25 students for each requested page.
             //var onePageOfStudents = Data.StudentContext.StudentList.ToPagedList(pageNumber, pageSize);
             var oneProduct =  _context.Products.ToPagedList(pageNumber, pageSize);
             return View(oneProduct); // Send 25 students to the page.

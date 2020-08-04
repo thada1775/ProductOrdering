@@ -150,8 +150,16 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.OrderingId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.OrderingId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.OrderingId">Delete</a>
+                        <a asp-action="Details" asp-route-id="@item.OrderingId">Details</a>
+                        @if (item.Status == Status.Sending)
+                        {
+                            <span>|</span>
+                            <a class="btn btn-danger" onclick="ConfirmDelete(@item.OrderingId,'@item.Receiver.Name @item.Receiver.Lastname')">
+                                <i style="color: white" class="fa fa-trash"></i>
+                            </a>
+                        }
+
+
                     </td>
 
                 </tr>
@@ -159,6 +167,29 @@
         </tbody>
     </table>
 </div>
+
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ยกเลิกรายการสั่งซื้อ</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h5>คุณต้องการยกเลิกคำสั่งซื้อของคุณ <span id="nameOfReceiver"></span> หรือไม่ </h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">ยกเลิก</a>
+                <a href="#" class="btn btn-danger" onclick="CancelOrder()">ตกลง</a>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hiddenOrderingId" />
 @section Scripts{
     <script>
         // Workaround to fix style of text for showing items .. through ..
@@ -167,6 +198,34 @@
         $(document).ready(function () {
             $('ul.pagination > li.disabled > a').addClass('page-link');
         });
+
+        function ConfirmDelete(EmployeeId, nameOfReceiver) {
+            console.log(nameOfReceiver);
+            $("#nameOfReceiver").text(nameOfReceiver)
+            $("#hiddenOrderingId").val(EmployeeId);
+            $("#myModal").modal('show');
+
+        }
+
+        var CancelOrder = function () {
+            var orderingId = $("#hiddenOrderingId").val();
+
+            $.ajax({
+
+                type: "POST",
+                url: "/Ordering/CancelOrdering",
+                data: { id: orderingId },
+                success: function (result) {
+
+                    $("#myModal").modal("hide");
+                    window.location.reload();
+                    //$("#row_" + empId).remove();
+
+                }
+
+            })
+
+        }
     </script>
 }
 <script type="text/javascript">

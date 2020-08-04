@@ -38,11 +38,11 @@ namespace ProductOrdering.Controllers
             else ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name", CategoryId);    //set current search to view
 
             var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
-            int pageSize = 2; // Get total students for each requested page.
+            int pageSize = 10; // Get total students for each requested page.
             
             var orderingSelect = await SearchOrdering(q, CategoryId, dateOrder);
             var currentUserId = User.GetLoggedInUserId<String>();
-            var orderpage = await orderingSelect.Where(o => o.UserId == currentUserId).ToList().ToPagedListAsync(pageNumber,pageSize);
+            var orderpage = await orderingSelect.Where(o => o.UserId == currentUserId).OrderBy(o => o.Status).ToList().ToPagedListAsync(pageNumber,pageSize);
             return View(orderpage);
         }
 
@@ -156,6 +156,22 @@ namespace ProductOrdering.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CancelOrdering(int id)
+        {
+            var orderingSelect = await _context.Orderings.FirstOrDefaultAsync(o => o.OrderingId == id);
+            if(orderingSelect == null)
+            {
+                return Json(new { status = "Error" });
+            }
+            orderingSelect.Status = Status.CancleOrder;
+            orderingSelect.CancelUserId = User.GetLoggedInUserId<string>();
+            _context.Orderings.Update(orderingSelect);
+            await _context.SaveChangesAsync();
+
+            return Json(new { status = "Success" });
         }
 
         [HttpPost]

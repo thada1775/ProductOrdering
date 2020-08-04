@@ -17,11 +17,13 @@ namespace ProductOrdering.Models.Configurations
                 .HasForeignKey(o => o.ProductId);
             builder.HasOne(o => o.ApplicationUser)
                 .WithMany(o => o.Orderings)
-                .HasForeignKey(o => o.UserId);
+                .HasForeignKey(o => o.UserId);       
             builder.HasOne(o => o.Receiver)
                 .WithOne(o => o.Ordering)
                 .HasForeignKey<Receiver>(o => o.OrderingId);
-
+            builder.HasOne(o => o.UserCancel)
+                .WithMany(o => o.OrderingsCancel)
+                .HasForeignKey(o => o.CancelUserId);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProductOrdering.Data;
@@ -9,9 +10,10 @@ using ProductOrdering.Data;
 namespace ProductOrdering.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200803062115_AddforeignkeyCancleUserId")]
+    partial class AddforeignkeyCancleUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -333,8 +335,6 @@ namespace ProductOrdering.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Orderings");
                 });
 
@@ -580,8 +580,8 @@ namespace ProductOrdering.Migrations
 
             modelBuilder.Entity("ProductOrdering.Models.Ordering", b =>
                 {
-                    b.HasOne("ProductOrdering.Models.ApplicationUser", "UserCancel")
-                        .WithMany("OrderingsCancel")
+                    b.HasOne("ProductOrdering.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Orderings")
                         .HasForeignKey("CancelUserId");
 
                     b.HasOne("ProductOrdering.Models.Product", "Product")
@@ -589,10 +589,6 @@ namespace ProductOrdering.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ProductOrdering.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Orderings")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ProductOrdering.Models.Product", b =>

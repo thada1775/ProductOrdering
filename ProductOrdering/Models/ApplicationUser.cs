@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace ProductOrdering.Models
         public UserDetail UserDetail { get; set; } = new UserDetail();
         public ICollection<Ordering> Orderings { get; }
         //public List<ApplicationUserRole> UserRoles { get; set; }
-
+        public ICollection<Ordering> OrderingsCancel { get; set; }
         [NotMapped]
         public List<string> Roles { get; set; }
 
