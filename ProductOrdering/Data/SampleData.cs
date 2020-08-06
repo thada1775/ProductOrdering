@@ -26,11 +26,24 @@ namespace ProductOrdering.Data
                     await RoleManager.CreateAsync(new IdentityRole(role));
                 }
             }
+            var userDetailOfAdmin = new UserDetail
+            {
+                FirstName = "ธาดา",
+                LastName = "ใจประดิษฐ์",
+                Tel = "0823518608",
+                Address = "7 หมู่ 2",
+                Province_id = 57,
+                Aumphure_id = 804,
+                District_id = 720801
 
+            };
             var adminUser = new ApplicationUser
             {
                 Email = "thada1775@gmail.com",
                 UserName = "thada1775@gmail.com",
+                EmailConfirmed = true,
+                IsEnabled = true,
+                UserDetail = userDetailOfAdmin,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
