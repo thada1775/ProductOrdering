@@ -5,7 +5,7 @@
 -- Dumped from database version 12.3
 -- Dumped by pg_dump version 12.3
 
--- Started on 2020-08-06 17:37:29
+-- Started on 2020-08-06 21:50:28
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -8947,7 +8947,7 @@ ALTER TABLE ONLY public."Districts"
     ADD CONSTRAINT "FK_Districts_Aumphures_Aumphure_id" FOREIGN KEY ("Aumphure_id") REFERENCES public."Aumphures"("Id") ON DELETE CASCADE;
 
 
--- Completed on 2020-08-06 17:37:30
+-- Completed on 2020-08-06 21:50:28
 
 --
 -- PostgreSQL database dump complete
