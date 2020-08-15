@@ -10,22 +10,39 @@
 
     <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-            <img src="~/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">
+            @*<img src="~/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">*@
+
+            @if (user.UserDetail.UserImage != null)
+            {
+            <img src="~/imageSource/UserImage/@user.UserDetail.UserImage" class="user-image img-circle elevation-2" alt="User Image">
+            }
+            else
+            {
+                <img src="~/imageSource/UserImage/DefaultUserImage/user.png" class="user-image img-circle elevation-2" alt="User Image">
+            }
             <span class="d-none d-md-inline">@user.UserDetail.FirstName&nbsp;&nbsp;@user.UserDetail.LastName</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <!-- User image -->
             <li class="user-header bg-primary">
-                <img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-                
+                @*<img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">*@
+                @if (user.UserDetail.UserImage != null)
+                {
+                    <img src="~/imageSource/UserImage/@user.UserDetail.UserImage" class="img-circle elevation-2" alt="User Image">
+                }
+                else
+                {
+                    <img src="~/imageSource/UserImage/DefaultUserImage/user.png" class="img-circle elevation-2" alt="User Image">
+                }
+
                 <p>
                     @user.UserDetail.FirstName&nbsp;&nbsp;@user.UserDetail.LastName
                     @*Alexander Pierce - Web Developer*@
-                    <small>Member since Nov. 2012</small>
+                    @*<small>Member since Nov. 2012</small>*@
                 </p>
             </li>
             <!-- Menu Body -->
-            <li class="user-body">
+            <!--<li class="user-body">
                 <div class="row">
                     <div class="col-4 text-center">
                         <a href="#">Followers</a>
@@ -36,17 +53,17 @@
                     <div class="col-4 text-center">
                         <a href="#">Friends</a>
                     </div>
-                </div>
-                <!-- /.row -->
-            </li>
+                </div>-->
+            <!-- /.row -->
+            <!--</li>-->
             <!-- Menu Footer-->
             <li class="user-footer">
-                
-                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <a href="@Url.Action("Index","UserManager")" style="float:left;" class="btn btn-default btn-flat">Profile</a>
-                        <input class="btn btn-default btn-flat float-right" type="submit" value="Sign out" />
-                    </form>
-                
+
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <a href="@Url.Action("Index","UserManager")" style="float:left;" class="btn btn-default btn-flat">Profile</a>
+                    <input class="btn btn-default btn-flat float-right" type="submit" value="Sign out" />
+                </form>
+
             </li>
         </ul>
     </li>

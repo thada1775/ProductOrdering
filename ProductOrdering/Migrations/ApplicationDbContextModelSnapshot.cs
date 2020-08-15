@@ -479,6 +479,9 @@ namespace ProductOrdering.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
+                    b.Property<string>("UserImage")
+                        .HasColumnType("text");
+
                     b.HasKey("UserDetailId");
 
                     b.HasIndex("Aumphure_id");

@@ -1,0 +1,240 @@
+﻿@model ProductOrdering.Models.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>@Model.AllOrder</h3>
+
+                <p>รายการสั่งซื้อทั้งหมด</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-toolbox"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@Model.CompleteOrder</h3>
+
+                <p>รายการสั่งซื้อที่ส่งสำเร็จ</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-splotch"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.SendingOrder</h3>
+
+                <p>รายการสั่งซื้อที่กำลังส่ง</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-spinner"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@Model.CancelOrder</h3>
+
+                <p>รายการสั่งซื้อที่ถูกยกเลิก</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-calendar-times"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">สมาชิก</h3>
+
+                <div class="card-tools">
+                    <span class="badge badge-danger">8 New Members</span>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+                <ul class="users-list clearfix">
+                    @foreach (var item in Model.AllUser)
+                    {
+                        <li>
+                            @if (item.UserDetail.UserImage != null)
+                            {
+                                <img src="~/imageSource/UserImage/@item.UserDetail.UserImage" alt="User Image">
+                            }
+                            else
+                            {
+                                <img src="~/imageSource/UserImage/DefaultUserImage/user.png" alt="User Image">
+                            }
+
+                            <a class="users-list-name" href="#">@item.UserDetail.FirstName&nbsp;&nbsp;@item.UserDetail.LastName</a>
+                            @*<span class="users-list-date">Today</span>*@
+                        </li>
+                    }
+                </ul>
+                <!-- /.users-list -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer text-center">
+                <a href="javascript::">View All Users</a>
+            </div>
+            <!-- /.card-footer -->
+        </div>
+        <!--/.card -->
+    </div>
+
+    <!-- /.col-md-6 -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Sales</h3>
+                    <a href="javascript:void(0);">View Report</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex">
+                    <p class="d-flex flex-column">
+                        @*<span class="text-bold text-lg">$18,230.00</span>*@
+                        <span>Sales Over Time</span>
+                    </p>
+                    @*<p class="ml-auto d-flex flex-column text-right">
+                        <span class="text-success">
+                            <i class="fas fa-arrow-up"></i> 33.1%
+                        </span>
+                        <span class="text-muted">Since last month</span>
+                    </p>*@
+                </div>
+                <!-- /.d-flex -->
+
+                <div class="position-relative mb-4">
+                    <canvas id="sales-chart" height="200"></canvas>
+                </div>
+
+                <div class="d-flex flex-row justify-content-end">
+                    <span class="mr-2">
+                        <i class="fas fa-square text-primary"></i> This year
+                    </span>
+
+                    <span>
+                        <i class="fas fa-square text-gray"></i> Last year
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<script src="~/plugins/chart.js/Chart.min.js"></script>
+<script>
+    $(function () {
+        'use strict'
+
+        var ticksStyle = {
+            fontColor: '#495057',
+            fontStyle: 'bold'
+        }
+
+        var mode = 'index'
+        var intersect = true
+        var $salesChart = $('#sales-chart')
+        console.log(@Html.Raw(Json.Serialize(Model.OrderCurrentYear)));
+        var salesChart = new Chart($salesChart, {
+            type: 'bar',
+            data: {
+                labels: ['JAN','FEB','MAR','APL','MAY','JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+                datasets: [
+                    {
+                        backgroundColor: '#007bff',
+                        borderColor: '#007bff',
+                        data: @Html.Raw(Json.Serialize(Model.OrderLastYear))
+                        //data: [1000, 2000, 3000, 2500, 2700, 2500, 3000]
+                    },
+                    {
+                        backgroundColor: '#ced4da',
+                        borderColor: '#ced4da',
+                        data: @Html.Raw(Json.Serialize(Model.OrderCurrentYear))
+                        //data: [700, 1700, 2700, 2000, 1800, 1500, 2000]
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                hover: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        // display: false,
+                        gridLines: {
+                            display: true,
+                            lineWidth: '4px',
+                            color: 'rgba(0, 0, 0, .2)',
+                            zeroLineColor: 'transparent'
+                        },
+                        ticks: $.extend({
+                            beginAtZero: true,
+
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                if (value >= 1000) {
+                                    value /= 1000
+                                    value += 'k'
+                                }
+                                return value
+                            }
+                        }, ticksStyle)
+                    }],
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: ticksStyle
+                    }]
+                }
+            }
+        })
+    })
+</script>
+
+
+

@@ -298,7 +298,7 @@ namespace ProductOrdering.Controllers
             else ViewBag.CategoryId = new SelectList(allCategory, "CategoryId", "Name", CategoryId);    //set current search to view
 
             var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
-            int pageSize = 2; // Get total students for each requested page.
+            int pageSize = 10; // Get total students for each requested page.
             var allOrdering = await SearchOrdering(q, CategoryId, dateOrder);
             var orderingPage = await allOrdering.Where(o => o.Status == Status.Sending).ToPagedListAsync(pageNumber, pageSize);
             return View(orderingPage);

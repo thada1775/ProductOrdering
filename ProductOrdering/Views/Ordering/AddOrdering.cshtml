@@ -26,9 +26,8 @@
     </div>
 }
 <div class="row justify-content-center">
-    <form method="post" asp-action="AddOrdering" class="border border-primary p-5 col-10">
+    <form method="post" asp-action="AddOrdering" class="border border-primary p-3 col-11">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
         <div class="row">
             <div class="col-6">
                 <div style="float: right;" class="text-center">
@@ -43,25 +42,28 @@
                 </div>
             </div>
             <div style="display: flex;align-items: center;" class="col-6">
-                @*<label style="margin-right: 10px;" asp-for="ProductId" class="control-label"></label>*@                
-                    <a class="btn btn-primary" style="color: white;" id="ProductListModal" onclick="createModal()">เลือกสินค้า</a>
-                    <input type="hidden" asp-for="ProductId" />
+                @*<label style="margin-right: 10px;" asp-for="ProductId" class="control-label"></label>*@
+                <a class="btn btn-primary" style="color: white;" id="ProductListModal" onclick="createModal()">เลือกสินค้า</a>
+                <input type="hidden" asp-for="ProductId" />
             </div>
         </div>
 
-        <div class="form-group col-sm-4 row">
-            <label asp-for="Payment" class="col-form-label"></label>
-            <div>
-                <select asp-for="Payment" asp-items="@Html.GetEnumSelectList<Payment>()" class="custom-select"></select>
-                <span asp-validation-for="Payment" class="text-danger"></span>
-            </div>
-        </div>
-
-        @*<div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" asp-items="@Html.GetEnumSelectList<Status>()" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
+        @*<div class="form-group col-sm-4 row">
+                <label asp-for="Payment" class="col-form-label"></label>
+                <div>
+                    <select asp-for="Payment" asp-items="@Html.GetEnumSelectList<Payment>()" class="custom-select"></select>
+                    <span asp-validation-for="Payment" class="text-danger"></span>
+                </div>
             </div>*@
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label asp-for="Payment" class="col-form-label"></label>
+                <div>
+                    <select asp-for="Payment" class="custom-select" asp-items="@Html.GetEnumSelectList<Payment>()"></select>
+                    <span asp-validation-for="Payment" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
         <input type="hidden" asp-for="Status" value="@Status.Sending" />
         <div class="row">
             <div class="form-group col-sm-6">
@@ -93,31 +95,6 @@
                 </div>
             </div>
         </div>
-        @*<div class="form-group">
-                <label asp-for="Discount" class="control-label"></label>
-                <input asp-for="Discount" class="form-control" />
-                <span asp-validation-for="Discount" class="text-danger"></span>
-            </div>*@
-        @*<div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>*@
-        @*<div class="form-group">
-                <label asp-for="TotalPrice" class="control-label"></label>
-                <input asp-for="TotalPrice" class="form-control" />
-                <span asp-validation-for="TotalPrice" class="text-danger"></span>
-            </div>*@
-        @*<div class="form-group">
-                <label asp-for="Receiver.Name" class="control-label"></label>
-                <input asp-for="Receiver.Name" class="form-control" />
-                <span asp-validation-for="Receiver.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Receiver.Lastname" class="control-label"></label>
-                <input asp-for="Receiver.Lastname" class="form-control" />
-                <span asp-validation-for="Receiver.Lastname" class="text-danger"></span>
-            </div>*@
         <div class="row">
             <div class="form-group col-sm-6">
                 <label asp-for="Receiver.Name" class="col-form-label"></label>

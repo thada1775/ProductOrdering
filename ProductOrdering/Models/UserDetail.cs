@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -29,6 +30,9 @@ namespace ProductOrdering.Models
         public int Province_id { get; set; }
         [Display(Name = "รหัสผู้ใช้")]
         public string? UserId { get; set; }
+        public string? UserImage { get; set; }
+        [NotMapped]
+        public IFormFile? UserImageForm { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }
 
         [NotMapped]

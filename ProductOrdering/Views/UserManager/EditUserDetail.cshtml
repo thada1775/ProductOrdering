@@ -1,0 +1,148 @@
+﻿@model ProductOrdering.Models.UserDetail
+
+@{
+    ViewData["Title"] = "แก้ไขข้อมูลส่วนตัว";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+<hr />
+<!-- SELECT2 EXAMPLE -->
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">แก้ไขข้อมูลส่วนตัว</h3>
+        @*<div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+            </div>*@
+    </div>
+    <!-- /.card-header -->
+    <form asp-action="EditUserDetail" enctype="multipart/form-data">
+        <div class="card-body">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col-md-6">
+                    <input type="hidden" asp-for="UserDetailId" value="@Model.UserDetailId" />
+                    <input type="hidden" id="userImage" asp-for="UserImage" value="@Model.UserImage" />
+                    <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Tel" class="control-label"></label>
+                        <input asp-for="Tel" class="form-control" />
+                        <span asp-validation-for="Tel" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label asp-for="Province_id" class="control-label"></label>
+                        <select asp-for="Province_id" class="form-control select2" asp-items="ViewBag.Province_id"></select>
+                        <span asp-validation-for="Province_id" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label asp-for="Aumphure_id" class="control-label"></label>
+                            <select asp-for="Aumphure_id" class="form-control" asp-items="ViewBag.Aumphure_id"></select>
+                            <span asp-validation-for="Aumphure_id" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label asp-for="District_id" class="control-label"></label>
+                        <select asp-for="District_id" class="form-control" asp-items="ViewBag.District_id"></select>
+                        <span asp-validation-for="District_id" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserImageForm" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="UserImageForm" accept=".jpg,.gif,.png" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">เลือกภาพ</label>
+                </div>
+
+                <span asp-validation-for="UserImageForm" class="text-danger"></span>
+            </div>
+            <a style="color: white;" onclick="ShowModal()" class="btn btn-danger">ลบรูปโปรไฟล์ปัจจุบัน</a>
+
+
+        </div>
+        <div class="card-footer">
+            <div class="form-group text-center">
+                <input type="submit" value="บันทึก" class="btn btn-primary w-75" />
+            </div>
+        </div>
+    </form>
+</div>
+@*<div class="card-footer">
+        Visit <a href="https://select2.github.io/">Select2 documentation</a> for more examples and information about
+        the plugin.
+    </div>*@
+<!-- /.card -->
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ลบรูปโปรไฟล์ปัจจุบัน</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h5>ต้องการลบรูปโปรไฟล์ปัจจุบันหรือไม่ </h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">ยกเลิก</a>
+                <a href="#" class="btn btn-danger" onclick="DeleteImageProfile()" data-dismiss="modal">ตกลง</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        function ShowModal()
+        {
+            $("#myModal").modal('show');
+        }
+
+        function DeleteImageProfile()
+        {
+            $("#userImage").val(null);
+            //$("#myModal").modal("hide");
+        }
+    </script>
+}
+

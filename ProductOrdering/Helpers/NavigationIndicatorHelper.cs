@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductOrdering.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +31,9 @@ namespace ProductOrdering.Helpers
                 return null;
             }
         }
+        //public static int GetNumOfUnPrintLabel()
+        //{
+        //    var a = new ApplicationDbContext();
+        //}
     }
 }

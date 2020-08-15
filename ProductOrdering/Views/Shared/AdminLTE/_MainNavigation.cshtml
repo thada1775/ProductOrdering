@@ -1,20 +1,31 @@
 ﻿@using static ProductOrdering.Helpers.NavigationIndicatorHelper;
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
+@inject ProductOrdering.Data.ApplicationDbContext _context;
+@{
+    int numOfUnPrintLabel = 0;
+    var user = await _userManager.GetUserAsync(User);
+    user.UserDetail = _context.UserDetails.FirstOrDefault(u => u.UserId == user.Id);
+}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="~/Home" class="brand-link">
         <img src="~/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Product Ordering</span>
     </a>
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                @if (user.UserDetail.UserImage != null)
+                {
+                    <img src="~/imageSource/UserImage/@user.UserDetail.UserImage" class="img-circle elevation-2" alt="User Image">
+                }
+                else
+                {
+                    <img src="~/imageSource/UserImage/DefaultUserImage/user.png" class="img-circle elevation-2" alt="User Image">
+                }
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="@Url.ActionLink("Index","UserManager")" class="d-block">@user.UserDetail.FirstName&nbsp;&nbsp;@user.UserDetail.LastName</a>
             </div>
         </div>
         <nav class="mt-2">
@@ -23,11 +34,18 @@
                     <a asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
-                            Home
+                            หน้าหลัก
                         </p>
                     </a>
                 </li>
-
+                <li class="nav-item ">
+                    <a asp-controller="Home" asp-action="Dashboard" class="nav-link @Url.MakeActiveClass("home","dashboard")">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            แผงควบคุม
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item ">
                     <a asp-controller="Ordering" asp-action="Index" class="nav-link @Url.MakeActiveClass("Ordering","index")">
                         <i class="nav-icon fas fa-shopping-cart"></i>
@@ -49,12 +67,19 @@
                 }
                 @if (User.IsInRole("Administrator") || User.IsInRole("Printer"))
                 {
+
+                    numOfUnPrintLabel = _context.Orderings.Where(o => o.Status == Status.Sending).ToList().Count();
                     <li class="nav-item ">
                         <a asp-controller="Ordering" asp-action="OrderPreparingToPrint" class="nav-link @Url.MakeActiveClass("Ordering","OrderPreparingToPrint")">
                             <i class="nav-icon fas fa-print"></i>
                             <p>
                                 พิมพ์ Labels
                             </p>
+                            @if (numOfUnPrintLabel != 0)
+                            {
+                                <span style="position: absolute;top: 1px; z-index: 10;" class="badge badge-danger">@numOfUnPrintLabel</span>
+                            }
+
                         </a>
                     </li>
                 }
@@ -73,7 +98,7 @@
                 {
                     <li class="nav-item ">
                         <a asp-controller="UserManagement" asp-action="Index" class="nav-link @Url.MakeActiveClass("UserManagement","index")">
-                            <i class="nav-icon fas fa-users"></i>
+                            <i class="nav-icon fas fa-user-cog"></i>
                             <p>
                                 จัดการผู้ใช้
                             </p>
@@ -81,14 +106,14 @@
                     </li>
                 }
 
-                <li class="nav-item ">
+                @*<li class="nav-item ">
                     <a asp-controller="Home" asp-action="Privacy" class="nav-link @Url.MakeActiveClass("home","privacy")">
                         <i class="nav-icon fas fa-lock"></i>
                         <p>
                             Privacy
                         </p>
                     </a>
-                </li>
+                </li>*@
             </ul>
         </nav>
     </div>

@@ -1,63 +1,38 @@
 ﻿@model IEnumerable<Product>
 <div class="modal-header">
-    <h4 class="modal-title">รายละเอียด</h4>
+    <h4 class="modal-title">สินค้าคงเหลือ</h4>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
     </button>
 </div>
 <div class="modal-body">
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ProductImage)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Amount)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Price)
-                    </th>
+    <div class="col-12">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+            <div class="card col-sm-4" style="width: 100%;">
+                @*<img class="card-img-top" src="~/imageSource/@item.ProductImage" alt="Card image cap">*@
+                <div class="card-img-top text-center m-1" alt="Card image cap">
+                    <img class="col-6" src="~/imageSource/@item.ProductImage"
+                         asp-append-version="true" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">
+                        ราคา : @item.Price <br>
+                        คงเหลือ : @item.Amount <br>
+                        หมวด : @item.Category.Name
+                    </p>
+                </div>
+                <div class="card-body text-center">
+                    <a data-dismiss="modal" style="color: white;" class="btn btn-success w-100" onclick="SetProductId(@item.ProductId)" id="CallBackProduct">เลือก</a>
+                </div>
+            </div>
+            }
+        </div>
 
-                    <th>
-                        @Html.DisplayNameFor(model => model.CategoryId)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <img src="~/imageSource/@item.ProductImage"
-                                 height="60" width="60"
-                                 asp-append-version="true" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Amount)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Category.Name)
-                        </td>
-                        <td>
-                            <a data-dismiss="modal" style="color: white;" class="btn btn-success" onclick="SetProductId(@item.ProductId)" id="CallBackProduct">เลือก</a>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <input type="hidden" name="callbackProductId" id="callbackProductId"/>
-    </div>
+            <input type="hidden" name="callbackProductId" id="callbackProductId" />
+        </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default"
@@ -67,7 +42,7 @@
 </div>
 <script>
     function SetProductId(productId) {
-        console.log(productId+" IN MODAL");
+        console.log(productId + " IN MODAL");
         document.getElementById("callbackProductId").value = "";
         document.getElementById("callbackProductId").value = productId;
 
@@ -83,7 +58,7 @@
             type: "POST",
             success: function (data) {
                 console.log(data);
-                
+
                 document.getElementById("ProductName").innerHTML = data["name"];
                 var rootSourceImage = "/imageSource/";
                 var sourceImage = rootSourceImage.concat(data["productImage"]);
