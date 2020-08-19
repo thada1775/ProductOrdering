@@ -56,7 +56,7 @@ namespace ProductOrdering.Controllers
                 orderingSelect = await _context.Orderings
                 .Include(o => o.Product)
                 .Include(o => o.Receiver)
-                .Where(o => o.Receiver.Name.Contains(q) && o.Product.CategoryId == CategotyId && o.Time.Date == dateOrder.Date)
+                .Where(o => o.Receiver.Name.ToUpper().Contains(q.ToUpper()) && o.Product.CategoryId == CategotyId && o.Time.Date == dateOrder.Date)
                 .Include(o => o.Receiver.District)
                 .Include(o => o.Receiver.Aumphure)
                 .Include(o => o.Receiver.Province)
@@ -66,7 +66,7 @@ namespace ProductOrdering.Controllers
             {
                 orderingSelect = await _context.Orderings
                     .Include(o => o.Receiver)
-                    .Where(o => o.Receiver.Name.Contains(q))
+                    .Where(o => o.Receiver.Name.ToUpper().Contains(q.ToUpper()))
                     .Include(o => o.Product)
                     .Include(o => o.Receiver.District)
                     .Include(o => o.Receiver.Aumphure)
@@ -100,7 +100,7 @@ namespace ProductOrdering.Controllers
                 orderingSelect = await _context.Orderings
                 .Include(o => o.Product)
                 .Include(o => o.Receiver)
-                .Where(o => o.Receiver.Name.Contains(q) && o.Product.CategoryId == CategotyId)
+                .Where(o => o.Receiver.Name.ToUpper().Contains(q.ToUpper()) && o.Product.CategoryId == CategotyId)
                 .Include(o => o.Receiver.District)
                 .Include(o => o.Receiver.Aumphure)
                 .Include(o => o.Receiver.Province)

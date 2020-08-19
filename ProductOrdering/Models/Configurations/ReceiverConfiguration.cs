@@ -12,6 +12,7 @@ namespace ProductOrdering.Models.Configurations
         public void Configure(EntityTypeBuilder<Receiver> builder)
         {
             builder.HasKey(r => r.ReceiverId);
+            builder.Property(r => r.Name).HasMaxLength(20);
             builder
                 .HasOne(r => r.District)
                 .WithMany(r => r.Receivers)
