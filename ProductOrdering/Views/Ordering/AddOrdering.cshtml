@@ -40,11 +40,12 @@
                         <label id="ProductName"></label>
                     </div>
                 </div>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
             <div style="display: flex;align-items: center;" class="col-6">
                 @*<label style="margin-right: 10px;" asp-for="ProductId" class="control-label"></label>*@
                 <a class="btn btn-primary" style="color: white;" id="ProductListModal" onclick="createModal()">เลือกสินค้า</a>
-                <input type="hidden" asp-for="ProductId" />
+                <input type="hidden" asp-for="ProductId" value="" />
             </div>
         </div>
 
@@ -76,9 +77,9 @@
                             </div>
                         </div>
                         <input asp-for="Discount" placeholder="ราคาลด" class="form-control">
-                        <span asp-validation-for="Discount" class="text-danger"></span>
                     </div>
                 </div>
+                <span asp-validation-for="Discount" class="text-danger"></span>
             </div>
             <div class="form-group col-sm-6">
                 <label asp-for="Amount" class="col-form-label"></label>
@@ -90,9 +91,10 @@
                             </div>
                         </div>
                         <input asp-for="Amount" placeholder="จำนวนสินค้า" class="form-control">
-                        <span asp-validation-for="Amount" class="text-danger"></span>
+
                     </div>
                 </div>
+                <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
         </div>
         <div class="row">
@@ -105,10 +107,10 @@
                                 <i class="fa fa-address-card"></i>
                             </div>
                         </div>
-                        <input asp-for="Receiver.Name" placeholder="ชื่อผู้รับ" class="form-control">
-                        <span asp-validation-for="Receiver.Name" class="text-danger"></span>
+                        <input asp-for="Receiver.Name" placeholder="ชื่อผู้รับ" class="form-control">     
                     </div>
                 </div>
+                <span asp-validation-for="Receiver.Name" class="text-danger"></span>
             </div>
             <div class="form-group col-sm-6">
                 <label asp-for="Receiver.Lastname" class="col-form-label"></label>
@@ -120,9 +122,10 @@
                             </div>
                         </div>
                         <input asp-for="Receiver.Lastname" placeholder="นามสกุลผู้รับ" class="form-control">
-                        <span asp-validation-for="Receiver.Lastname" class="text-danger"></span>
+
                     </div>
                 </div>
+                <span asp-validation-for="Receiver.Lastname" class="text-danger"></span>
             </div>
         </div>
         <div class="row">
@@ -136,9 +139,10 @@
                             </div>
                         </div>
                         <input asp-for="Receiver.Tel" placeholder="เบอร์โทรศัพท์ผู้รับ" class="form-control">
-                        <span asp-validation-for="Receiver.Tel" class="text-danger"></span>
+
                     </div>
                 </div>
+                <span asp-validation-for="Receiver.Tel" class="text-danger"></span>
             </div>
             <div class="form-group col-sm-6">
                 <label asp-for="Receiver.Address" class="col-form-label"></label>
@@ -150,22 +154,12 @@
                             </div>
                         </div>
                         <input asp-for="Receiver.Address" placeholder="ที่อยู่ผู้รับ" class="form-control">
-                        <span asp-validation-for="Receiver.Address" class="text-danger"></span>
+
                     </div>
                 </div>
+                <span asp-validation-for="Receiver.Address" class="text-danger"></span>
             </div>
         </div>
-
-        @*<div class="form-group">
-                <label asp-for="Receiver.Tel" class="control-label"></label>
-                <input asp-for="Receiver.Tel" class="form-control" />
-                <span asp-validation-for="Receiver.Tel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Receiver.Address" class="control-label"></label>
-                <input asp-for="Receiver.Address" class="form-control" />
-                <span asp-validation-for="Receiver.Address" class="text-danger"></span>
-            </div>*@
         <div class="row">
             <div class="form-group col-sm-4">
                 <label asp-for="Receiver.Province_id" class="col-form-label"></label>
@@ -174,6 +168,7 @@
                         <option value='0'>กรุณาเลือกจังหวัด</option>
                     </select>
                 </div>
+                <span asp-validation-for="Receiver.Province_id" class="text-danger"></span>
             </div>
             <div class="form-group col-sm-4">
                 <label asp-for="Receiver.Aumphure_id" class="col-form-label"></label>
@@ -182,6 +177,7 @@
                         <option value='0'>กรุณาเลือกอำเภอ</option>
                     </select>
                 </div>
+                <span asp-validation-for="Receiver.Aumphure_id" class="text-danger"></span>
             </div>
             <div class="form-group col-sm-4">
                 <label asp-for="Receiver.District_id" class="col-form-label"></label>
@@ -190,6 +186,7 @@
                         <option value='0'>กรุณาเลือกตำบล</option>
                     </select>
                 </div>
+                <span asp-validation-for="Receiver.District_id" class="text-danger"></span>
             </div>
         </div>
 

@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using ProductOrdering.Models;
 using Rotativa.AspNetCore;
 using Microsoft.AspNetCore.HttpOverrides;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 namespace ProductOrdering
 {
@@ -37,7 +39,12 @@ namespace ProductOrdering
                 .AddDefaultTokenProviders()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation(fv => 
+            {
+                fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                fv.ImplicitlyValidateChildProperties = true;
+            });
             services.AddRazorPages();
 
             

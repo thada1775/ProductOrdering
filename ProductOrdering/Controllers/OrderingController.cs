@@ -211,6 +211,7 @@ namespace ProductOrdering.Controllers
                     return NotFound();
                 }
             }
+            ModelState.AddModelError("Error", "แบบฟอร์มไม่สมบูรณ์");
             var allProvince = await _context.Provinces.OrderBy(p => p.Name_th).ToListAsync();
             ViewBag.Province_id = new SelectList(allProvince, "Id", "Name_th", model.Receiver.Province_id);
 
