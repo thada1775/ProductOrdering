@@ -2,7 +2,8 @@
   "runtimeOptions": {
     "additionalProbingPaths": [
       "C:\\Users\\ThadaLight\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\ThadaLight\\.nuget\\packages"
+      "C:\\Users\\ThadaLight\\.nuget\\packages",
+      "C:\\Microsoft\\Xamarin\\NuGet"
     ]
   }
 }

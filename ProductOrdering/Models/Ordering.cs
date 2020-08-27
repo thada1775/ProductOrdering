@@ -18,18 +18,18 @@ namespace ProductOrdering.Models
         public int ProductId { get; set; }
         public Product? Product { get; set; }
 
-        [Display(Name = "รูปแบบการชำระเงิน")]
+        [Display(Name = "รูปแบบ")]
         public Payment Payment { get; set; }
-        [Display(Name = "สถานะการส่ง")]
+        [Display(Name = "สถานะ")]
         public Status Status { get; set; }
-        [Display(Name = "ราคาที่ลด")]
+        [Display(Name = "ลดราคา")]
         public decimal? Discount { get; set; }
 
-        [Display(Name = "จำนวนสินค้า")]
+        [Display(Name = "จำนวน")]
         public int Amount { get; set; }
         [Display(Name = "เงินรวม")]
         public decimal? TotalPrice { get; set; }
-        [Display(Name = "เวลาที่ทำรายการ")]
+        [Display(Name = "เวลา")]
         public DateTime Time { get; set; }
         public Receiver? Receiver { get; set; }     
         public string? CancelUserId { get; set; }
@@ -53,7 +53,7 @@ namespace ProductOrdering.Models
         [Display(Name = "ส่งสำเร็จ")]
         CompleteSending,
 
-        [Display(Name = "ยกเลิกรายการสั่งซื้อ")]
+        [Display(Name = "ยกเลิก")]
         CancleOrder
     }
 }
