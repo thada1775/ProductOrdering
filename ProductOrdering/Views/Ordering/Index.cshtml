@@ -64,36 +64,6 @@
     </div>
 </div>
 
-
-
-@*@using (Html.BeginForm("Index", "Ordering", FormMethod.Get))
-    {
-        @Html.TextBox("q",)
-        <span style="margin-left: 10px;">หมวดสินค้า</span>
-        <select class="form-control" name="CategoryId" asp-items="ViewBag.CategoryId">
-            <option value="">ทั้งหมด</option>
-        </select>
-        <span style="margin-left: 10px;">วันที่</span>
-        <input type="date" name="dateOrder" class="form-control" />
-        <button type="submit" class="btn btn-info">ค้นหา</button>
-    }*@
-
-<!-- paging control for navigation to the previous page, next page, etc -->
-<!--@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index",
-    new
-    {
-        page = page,
-        q = HttpContextAccessor.HttpContext.Request.Query["q"].ToString(),
-        CategoryId = HttpContextAccessor.HttpContext.Request.Query["CategoryId"]
-    }),
-    new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
-    {
-        DisplayItemSliceAndTotal = false,
-        ContainerDivClasses = new[] { "navigation" },
-        LiElementClasses = new[] { "page-item" },
-        PageClasses = new[] { "page-link" },
-
-    })-->
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">รายการสั่งซื้อ</h3>
@@ -119,53 +89,54 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body p-0">
-        <div class="table-responsive-md">
+        <div class="table-responsive-lg">
             <table class="table table-striped table-border table-hover">
                 <thead>
-                    <tr class="">
-                        <th class="col-1">
+                    <tr>
+                        <th style="width: 17%">
                             @*@Html.DisplayNameFor(model => model.Product.ProductImage)*@
                         </th>
-                        <th class="col-1">
+                        <th style="width: 9%">
                             @Html.DisplayNameFor(model => model.ProductId)
                         </th>
-                        <th class="col-1">
+                        <th style="width: 9%">
                             @Html.DisplayNameFor(model => model.Payment)
                         </th>
-                        <th class="col-1">
+                        <th style="width: 9%">
                             @Html.DisplayNameFor(model => model.Status)
                         </th>
-                        <th class="col-1">
+                        <th style="width: 5%">
                             @Html.DisplayNameFor(model => model.Discount)
                         </th>
-                        <th class="col-1">
+                        <th style="width: 5%">
                             @Html.DisplayNameFor(model => model.Amount)
                         </th>
-                        <th class="col-1">
+                        <th style="width: 9%">
                             @Html.DisplayNameFor(model => model.TotalPrice)
                         </th>
-                        <th class="col-1">
+                        <th style="width: 9%">
                             @Html.DisplayNameFor(model => model.Time)
                         </th>
-                        <th class="col-1">
+                        <th style="width: 9%">
                             @Html.DisplayNameFor(model => model.Receiver.Name)
                         </th>
-                        <th class="col-2">
+                        <th style="width: 10%">
                             @Html.DisplayNameFor(model => model.Receiver.Address)
                         </th>
-                        <th class="col-1"></th>
+                        <th style="width: 9%"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="" ondblclick="GetReceiverId(@item.Receiver.ReceiverId)">
+                        <tr ondblclick="GetReceiverId(@item.Receiver.ReceiverId)">
 
-                            <td class="col-1">
+                            <td>
                                 <div>
-                                    <img src="~/imageSource/@item.Product.ProductImage"
+                                    <img style="max-width: 100px; width: 100%; min-width: 45px"
+                                         src="~/imageSource/@item.Product.ProductImage"
                                          id="ProductImageSource" class="img-thumbnail rounded"
-                                         height="100" width="100"
+                                         
                                          asp-append-version="true" />
                                 </div>
                                 @*@Html.DisplayFor(modelItem => item.Product.ProductImage)*@
@@ -173,7 +144,7 @@
                             <td class="col-1">
                                 @Html.DisplayFor(modelItem => item.Product.Name)
                             </td>
-                            <td class="col-1">
+                            <td>
 
                                 @if (item.Payment == Payment.CashOnDelivery)
                                 {
@@ -189,7 +160,7 @@
                                 }
 
                             </td>
-                            <td class="col-1">
+                            <td>
                                 @if (item.Status == Status.CancleOrder)
                                 {
                                     <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.Status)</span>
@@ -208,28 +179,28 @@
                                 }
 
                             </td>
-                            <td class="col-1">
+                            <td>
                                 @Html.DisplayFor(modelItem => item.Discount)
                             </td>
-                            <td class="col-1">
+                            <td>
                                 @*@Html.DisplayFor(modelItem => item.Amount)*@
                                 <span class="badge badge-pill badge-primary ml-2">@Html.DisplayFor(modelItem => item.Amount)</span>
                             </td>
-                            <td class="col-1">
+                            <td>
                                 @Html.DisplayFor(modelItem => item.TotalPrice)
                             </td>
-                            <td class="col-1">
+                            <td>
                                 @Html.DisplayFor(modelItem => item.Time)
                             </td>
-                            <td class="col-1">
+                            <td>
                                 @Html.DisplayFor(modelItem => item.Receiver.Name)
                             </td>
-                            <td class="col-2">
+                            <td>
                                 <b>
                                     @Html.DisplayFor(modelItem => item.Receiver.FullAddress)
                                 </b>
                             </td>
-                            <td class="col-1">
+                            <td>
                                 <a asp-action="Edit" asp-route-id="@item.OrderingId">Edit</a> |
                                 <a asp-action="Details" asp-route-id="@item.OrderingId">Details</a>
                                 @if (item.Status == Status.Sending)

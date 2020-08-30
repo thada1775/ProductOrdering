@@ -11,15 +11,15 @@ namespace ProductOrdering.Models
     {
         [Display(Name = "รหัสสินค้า")]
         public int ProductId { get; set; }
-        [Display(Name = "ชื่อสินค้า")]
+        [Display(Name = "ชื่อ")]
         public string Name { get; set; }
-        [Display(Name = "จำนวนสินค้าที่เหลือ")]
+        [Display(Name = "คงเหลือ")]
         public int Amount { get; set; }
         [Display(Name = "ราคา")]
         public decimal Price { get; set; }
-        [Display(Name = "หมวดสินค้า")]
+        [Display(Name = "หมวด")]
         public int CategoryId { get; set; }
-        [Display(Name = "รูปภาพ")]
+        [Display(Name = "รูป")]
         public string? ProductImage { get; set; }
         public virtual Category? Category { get; set; }
         public ICollection<Ordering>? Orderings { get; }

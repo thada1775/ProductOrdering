@@ -35,7 +35,7 @@ namespace ProductOrdering.Controllers
             var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
             int pageSize = 10; // Get 25 students for each requested page.
             //var onePageOfStudents = Data.StudentContext.StudentList.ToPagedList(pageNumber, pageSize);
-            var oneProduct =  _context.Products.ToPagedList(pageNumber, pageSize);
+            var oneProduct =  _context.Products.Include(p => p.Category).ToPagedList(pageNumber, pageSize);
             return View(oneProduct); // Send 25 students to the page.
         }
 
