@@ -190,6 +190,7 @@ namespace ProductOrdering.Controllers
                 {
                     if (productSelect.Amount >= model.Amount)       //If amount of product more than stock
                     {
+                        string message = "";
                         var productStock = productSelect.Amount - model.Amount;
                         productSelect.Amount = productStock;
                         model.TotalPrice = model.Amount * productSelect.Price;    //calculate total price
@@ -200,7 +201,14 @@ namespace ProductOrdering.Controllers
 
                         model = await _context.Orderings.Where(o => o.OrderingId == model.OrderingId).Include(o => o.Product).FirstOrDefaultAsync();
                         var userDetail = await _context.UserDetails.Where(u => u.UserId == currentUserId).FirstOrDefaultAsync();
-                        string message = $"คุณ{userDetail.FirstName} {userDetail.LastName} ได้เพิ่มรายการสั่งซื้อ {model.Product.Name} จำนวน {model.Amount}";
+
+                        if(productSelect.Amount <=9)
+                        {
+                            message = $"แจ้งเตือน !  สินค้า {productSelect.Name} คงเหลือ {productSelect.Amount}";
+                            lineNotify(message);
+                        }
+
+                        message = $"คุณ{userDetail.FirstName} {userDetail.LastName} ได้เพิ่มรายการสั่งซื้อ {model.Product.Name} จำนวน {model.Amount}";
                         lineNotify(message);
                         return RedirectToAction("Index");
                     }
