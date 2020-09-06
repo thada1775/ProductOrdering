@@ -1,0 +1,16 @@
+<!--<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+            @if (user.UserDetail.UserImage != null)
+            {-->
+                @*<img src="~/imageSource/UserImage/@user.UserDetail.UserImage" class="img-circle elevation-2" alt="User Image">*@
+                <!--<img class="circular--profile elevation-2" src="~/imageSource/UserImage/@user.UserDetail.UserImage" />
+            }
+            else
+            {
+                <img src="~/imageSource/UserImage/DefaultUserImage/user.png" class="img-circle elevation-2" alt="User Image">
+            }
+        </div>
+        <div class="info">
+            <a href="@Url.ActionLink("Index","UserManager")" class="d-block">@user.UserDetail.FirstName&nbsp;&nbsp;@user.UserDetail.LastName</a>
+        </div>
+    </div>-->

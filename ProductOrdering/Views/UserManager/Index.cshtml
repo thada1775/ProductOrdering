@@ -20,15 +20,18 @@ else
             <div class="text-center">
                 @if (Model.UserImage == null)
                 {
-                    <img class="profile-user-img img-fluid img-circle"
-                         src="~/imageSource/UserImage/DefaultUserImage/user.png"
-                         alt="User profile picture">
+                    @*<img class="profile-user-img img-fluid img-circle"
+            src="~/imageSource/UserImage/DefaultUserImage/user.png"
+            alt="User profile picture">*@
+                    <img class="circular--profile" src="~/imageSource/UserImage/DefaultUserImage/user.png" />
                 }
                 else
                 {
-                    <img class="profile-user-img img-fluid img-circle"
-                         src="~/imageSource/UserImage/@Model.UserImage"
-                         alt="User profile picture">
+                    @*<img class="profile-user-img img-fluid img-circle"
+            src="~/imageSource/UserImage/@Model.UserImage"
+            alt="User profile picture">*@
+                    <img class="circular--profile" src="~/imageSource/UserImage/@Model.UserImage" />
+
                 }
 
             </div>
@@ -59,56 +62,56 @@ else
     <!-- /.card -->
     <!-------------------------------------------------------------------->
     @*<div>
-        <h4>ข้อมูลผู้ใช้</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FirstName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FirstName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LastName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.LastName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Tel)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Tel)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Address)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Address)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.District_id)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.District.Name_th)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Aumphure_id)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Aumphure.Name_th)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Province_id)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Province.Name_th)
-            </dd>
-        </dl>
-    </div>*@
+            <h4>ข้อมูลผู้ใช้</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Tel)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Tel)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.District_id)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.District.Name_th)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Aumphure_id)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Aumphure.Name_th)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Province_id)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Province.Name_th)
+                </dd>
+            </dl>
+        </div>*@
     @*<div>
-        <a asp-action="EditUserDetail" asp-route-id="@Model.UserDetailId">แก้ไขข้อมูลส่วนตัว</a> |
+            <a asp-action="EditUserDetail" asp-route-id="@Model.UserDetailId">แก้ไขข้อมูลส่วนตัว</a> |
 
-    </div>*@
+        </div>*@
 }
 

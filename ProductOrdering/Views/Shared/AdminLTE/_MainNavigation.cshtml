@@ -17,7 +17,8 @@
             <div class="image">
                 @if (user.UserDetail.UserImage != null)
                 {
-                    <img src="~/imageSource/UserImage/@user.UserDetail.UserImage" class="img-circle elevation-2" alt="User Image">
+                    @*<img src="~/imageSource/UserImage/@user.UserDetail.UserImage" class="img-circle elevation-2" alt="User Image">*@
+                    <img class="circular--profile elevation-2" src="~/imageSource/UserImage/@user.UserDetail.UserImage" />
                 }
                 else
                 {
@@ -27,7 +28,7 @@
             <div class="info">
                 <a href="@Url.ActionLink("Index","UserManager")" class="d-block">@user.UserDetail.FirstName&nbsp;&nbsp;@user.UserDetail.LastName</a>
             </div>
-        </div>
+        </div>   
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item ">
@@ -55,7 +56,7 @@
                     </a>
                 </li>
                 @if (User.IsInRole("Administrator"))
-                {
+{
                     <li class="nav-item ">
                         <a asp-controller="Product" asp-action="Index" class="nav-link @Url.MakeActiveClass("Product","index")">
                             <i class="nav-icon fas fa-cubes"></i>
@@ -64,9 +65,9 @@
                             </p>
                         </a>
                     </li>
-                }
+}
                 @if (User.IsInRole("Administrator") || User.IsInRole("Printer"))
-                {
+{
 
                     numOfUnPrintLabel = _context.Orderings.Where(o => o.Status == Status.Sending).ToList().Count();
                     <li class="nav-item ">
@@ -82,9 +83,9 @@
 
                         </a>
                     </li>
-                }
+}
                 @if (User.IsInRole("Administrator"))
-                {
+{
                     <li class="nav-item ">
                         <a asp-controller="Report" asp-action="Index" class="nav-link @Url.MakeActiveClass("Report","Index")">
                             <i class="nav-icon fas fa-fax"></i>
@@ -93,9 +94,9 @@
                             </p>
                         </a>
                     </li>
-                }
+}
                 @if (User.IsInRole("Administrator"))
-                {
+{
                     <li class="nav-item ">
                         <a asp-controller="UserManagement" asp-action="Index" class="nav-link @Url.MakeActiveClass("UserManagement","index")">
                             <i class="nav-icon fas fa-user-cog"></i>
@@ -104,7 +105,7 @@
                             </p>
                         </a>
                     </li>
-                }
+}
 
                 @*<li class="nav-item ">
                     <a asp-controller="Home" asp-action="Privacy" class="nav-link @Url.MakeActiveClass("home","privacy")">

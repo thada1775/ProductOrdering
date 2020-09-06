@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using ProductOrdering.Data;
 using ProductOrdering.Extensions;
 using ProductOrdering.Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace ProductOrdering.Controllers
 {
@@ -61,9 +63,9 @@ namespace ProductOrdering.Controllers
             {
                 return NotFound();
             }
-            
+
             var allProvince = await _context.Provinces.OrderBy(p => p.Name_th).ToListAsync();
-            ViewBag.Province_id = new SelectList(allProvince, "Id", "Name_th",UserDetailSelect.Province_id);
+            ViewBag.Province_id = new SelectList(allProvince, "Id", "Name_th", UserDetailSelect.Province_id);
 
             var allAumphure = await _context.Aumphures.Where(a => a.Province_id == UserDetailSelect.Province_id).OrderBy(p => p.Name_th).ToListAsync();
             ViewBag.Aumphure_id = new SelectList(allAumphure, "Id", "Name_th", UserDetailSelect.Aumphure_id);
@@ -76,7 +78,7 @@ namespace ProductOrdering.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles ="Administrator")]
+        [Authorize]
         public async Task<IActionResult> EditUserDetail(UserDetail model)
         {
             if (ModelState.IsValid)
@@ -86,14 +88,14 @@ namespace ProductOrdering.Controllers
 #pragma warning restore CS8600
                 if (model.UserImageForm != null || model.UserImage == null)     //if user upload image mean user change image profile
                 {
-                    if(!string.IsNullOrEmpty(UserimageSelect))
+                    if (!string.IsNullOrEmpty(UserimageSelect))
                     {
                         string filepath = Path.Combine(webHostEnvironment.WebRootPath, "imageSource\\UserImage\\" + UserimageSelect);
                         if (System.IO.File.Exists(filepath))
                         {
                             System.IO.File.Delete(filepath);    //delete old image profile
                         }
-                    }          
+                    }
                     model.UserImage = UploadedFile(model);
                 }
 
@@ -128,7 +130,7 @@ namespace ProductOrdering.Controllers
             return Json(allDistrict);
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         private string UploadedFile(UserDetail model)
         {
             string uniqueFileName = null;

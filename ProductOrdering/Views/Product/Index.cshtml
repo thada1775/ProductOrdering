@@ -80,12 +80,15 @@
                                 @Html.ActionLink("แก้ไข", "EditProduct", new { id = item.ProductId }) |
                                 @Html.ActionLink("รายละเอียด", "PreductDetails", new { id = item.ProductId }) |
                                 @*@Html.ActionLink("ลบ", "DeleteProduct", new { id = item.ProductId }) |*@
-                                <a class="btn btn-danger btn-sm" href="@Url.Action("DeleteProduct", "Product", new { id = item.ProductId })">
-                                    <i style="color: white" class="fa fa-trash"></i>
-                                </a>
-                                <a class="btn btn-info btn-sm" id="edit_@item.ProductId" onclick="createModal('@Url.Action("ProductDetails", "Product" , new {id = item.ProductId })')">
-                                    <i style="color: white;" class="fa fa-info-circle" aria-hidden="true"></i>
-                                </a>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a class="btn btn-danger btn-sm" href="@Url.Action("DeleteProduct", "Product", new { id = item.ProductId })">
+                                        <i style="color: white" class="fa fa-trash"></i>
+                                    </a>
+                                    <a class="btn btn-info btn-sm" id="edit_@item.ProductId" onclick="createModal('@Url.Action("ProductDetails", "Product" , new {id = item.ProductId })')">
+                                        <i style="color: white;" class="fa fa-info-circle" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                                
                             </td>
                         </tr>
                     }
