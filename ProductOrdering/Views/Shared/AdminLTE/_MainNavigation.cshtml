@@ -31,7 +31,7 @@
                 }
                 else
                 {
-                    <img src="~/imageSource/UserImage/DefaultUserImage/user.png" class="img-circle elevation-2" alt="User Image">
+                    <img class="circular--profile1 elevation-2" src="~/imageSource/UserImage/DefaultUserImage/user.png" alt="User Image">
                 }
             </div>
             <div class="info">
@@ -96,7 +96,7 @@
                 @if (User.IsInRole("Administrator"))
 {
                     <li class="nav-item ">
-                        <a asp-controller="Report" asp-action="Index" class="nav-link @Url.MakeActiveClass("Report","Index")">
+                        <a asp-controller="Report" asp-action="Index" class="nav-link @Url.MakeActiveClass("Report","Index") @Url.MakeActiveClass("Report","ViewReportEachUser")">
                             <i class="nav-icon fas fa-fax"></i>
                             <p>
                                 สรุปรายงาน

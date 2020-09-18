@@ -37,7 +37,7 @@ namespace ProductOrdering.Controllers
             int SendingOrder = _context.Orderings.Count(o => o.Status == Status.Sending);
             int CancelOrder = _context.Orderings.Count(o => o.Status == Status.CancleOrder);
 
-            var allUser = _context.Users.Where(u => u.NormalizedEmail != "THADA1775@GMAIL.COM").Include(u => u.UserDetail);
+            var allUser = _context.Users.Where(u => u.NormalizedEmail != "THADA1775@GMAIL.COM" && u.EmailConfirmed == true).Include(u => u.UserDetail);
 
             int[] allmount = new int[]
             {

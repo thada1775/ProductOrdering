@@ -14,6 +14,7 @@ using ProductOrdering.Extensions;
 using ProductOrdering.Models;
 using ProductOrdering.Models.Charts;
 using ProductOrdering.Models.ViewModels;
+using X.PagedList;
 
 namespace ProductOrdering.Controllers
 {
@@ -31,15 +32,17 @@ namespace ProductOrdering.Controllers
         }
 
         [Authorize(Roles ="Administrator")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var roleManager = _serviceProvider.GetService<IdentityRole>();
-            var userManager = _serviceProvider.GetService<ApplicationUser>();
+            //var roleManager = _serviceProvider.GetService<IdentityRole>();
+            //var userManager = _serviceProvider.GetService<ApplicationUser>();
+            var pageNumber = page ?? 1; // if no page is specified, default to the first page (1)
+            int pageSize = 10; // Get 25 students for each requested page.
             var allUser = await _context.Users.Include(u => u.UserDetail)
                 .Include(u => u.UserDetail.District)
                 .Include(u => u.UserDetail.Aumphure)
                 .Include(u => u.UserDetail.Province)
-                .ToListAsync();
+                .ToPagedListAsync(pageNumber,pageSize);
 
             foreach (var user in allUser)
             {
