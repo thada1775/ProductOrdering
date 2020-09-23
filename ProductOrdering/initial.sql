@@ -502,3 +502,57 @@ BEGIN
     VALUES ('20200803073409_AddForeignkey2', '3.1.3');
     END IF;
 END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20200812045250_UserImage') THEN
+    ALTER TABLE "AspNetUsers" ADD "UserImage" text NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20200812045250_UserImage') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20200812045250_UserImage', '3.1.3');
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20200813041753_EditUserImage') THEN
+    ALTER TABLE "AspNetUsers" DROP COLUMN "UserImage";
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20200813041753_EditUserImage') THEN
+    ALTER TABLE "UserDetails" ADD "UserImage" text NULL;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20200813041753_EditUserImage') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20200813041753_EditUserImage', '3.1.3');
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20200817085913_testMaxLenge') THEN
+    ALTER TABLE "Receivers" ALTER COLUMN "Name" TYPE character varying(20);
+    ALTER TABLE "Receivers" ALTER COLUMN "Name" SET NOT NULL;
+    ALTER TABLE "Receivers" ALTER COLUMN "Name" DROP DEFAULT;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20200817085913_testMaxLenge') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20200817085913_testMaxLenge', '3.1.3');
+    END IF;
+END $$;

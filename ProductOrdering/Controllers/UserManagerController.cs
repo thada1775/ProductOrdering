@@ -137,7 +137,7 @@ namespace ProductOrdering.Controllers
 
             if (model.UserImageForm != null)
             {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "imageSource\\UserImage");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "imageSource/UserImage");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.UserImageForm.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
