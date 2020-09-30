@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "GC4pjTb5tJdrCWvZ99WmxZRh+gTXu3Df2hZFZzQ+8O9B2NKQZ6NbzRdUyW1r8cYVOAaKmHVQeJ9I27rZYRokGw==",
+  "dgSpecHash": "oi+rQRLMptgLCyAJYZLEsq5fovTCBBmOrmcNHHYrhjktR4+lmtDwJJJX+br2u7xElswg1FzS81uvNLdT1FEfBw==",
   "success": true,
   "projectFilePath": "E:\\respository\\ProductOrdering\\ProductOrdering\\ProductOrdering.csproj",
   "expectedPackageFiles": [
@@ -121,8 +121,7 @@
     "C:\\Users\\ThadaLight\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\3.1.3\\npgsql.entityframeworkcore.postgresql.3.1.3.nupkg.sha512",
     "C:\\Users\\ThadaLight\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql.design\\1.1.1\\npgsql.entityframeworkcore.postgresql.design.1.1.1.nupkg.sha512",
     "C:\\Users\\ThadaLight\\.nuget\\packages\\nuget.frameworks\\4.7.0\\nuget.frameworks.4.7.0.nupkg.sha512",
-    "C:\\Users\\ThadaLight\\.nuget\\packages\\rotativa\\1.6.4\\rotativa.1.6.4.nupkg.sha512",
-    "C:\\Users\\ThadaLight\\.nuget\\packages\\rotativa.aspnetcore\\1.1.1\\rotativa.aspnetcore.1.1.1.nupkg.sha512",
+    "C:\\Users\\ThadaLight\\.nuget\\packages\\rotativa.aspnetcore\\1.2.0-beta\\rotativa.aspnetcore.1.2.0-beta.nupkg.sha512",
     "C:\\Users\\ThadaLight\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\ThadaLight\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\ThadaLight\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
@@ -277,16 +276,6 @@
       "warningLevel": 1,
       "message": "Package 'Microsoft.Web.Infrastructure 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
       "libraryId": "Microsoft.Web.Infrastructure",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Rotativa 1.6.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
-      "libraryId": "Rotativa",
       "targetGraphs": [
         ".NETCoreApp,Version=v3.1"
       ]

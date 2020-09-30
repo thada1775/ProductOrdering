@@ -13,7 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProductOrdering.Models;
-using Rotativa.AspNetCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using FluentValidation.AspNetCore;
 using System.Reflection;
@@ -78,8 +77,6 @@ namespace ProductOrdering
             app.UseAuthorization();
             SampleData.InitializeAsync(serviceProvider).Wait(); //seed data
 
-            RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -87,6 +84,9 @@ namespace ProductOrdering
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            //RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
+            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "wkhtml");
         }
     }
 }
