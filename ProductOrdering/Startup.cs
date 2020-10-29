@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +16,10 @@ using ProductOrdering.Models;
 using Microsoft.AspNetCore.HttpOverrides;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication;
+using System.Net.Http;
+using System.Text.Json;
+using System.Security.Claims;
 
 namespace ProductOrdering
 {
@@ -31,6 +35,7 @@ namespace ProductOrdering
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -38,6 +43,8 @@ namespace ProductOrdering
                 .AddDefaultTokenProviders()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddLineNotify(Configuration);
             services.AddControllersWithViews().AddFluentValidation(fv => 
             {
                 fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,14 +20,19 @@ namespace ProductOrdering.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        public HomeController(ILogger<HomeController> logger,ApplicationDbContext context)
+        private readonly LineNotify _lineNotify;
+        public HomeController(ILogger<HomeController> logger,
+            ApplicationDbContext context,
+            LineNotify lineNotify)
         {
             _logger = logger;
             _context = context;
+            _lineNotify = lineNotify;
         }
 
         public async Task<IActionResult> Index()
         {
+            ViewData["IsValid"] = await _lineNotify.IsValid();
             var product = await _context.Products.Take(3).ToListAsync();
             return View(product);
         }
@@ -82,7 +89,43 @@ namespace ProductOrdering.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult LineNotify(string provider)
+        {
+            return _lineNotify.Authorize();
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> LineNotifyCallback(string remoteError = null)
+        {
+            if(!string.IsNullOrEmpty(remoteError))
+            {
+                ModelState.AddModelError(string.Empty, "Error from Line provider");
+                return View("Index");
+            }
+            var callBackRespone = await _lineNotify.Callback();
+            if (callBackRespone)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(string message)
+        {
+            await _lineNotify.SendNotify(message);
+            return RedirectToAction("Index");
+        }
 
+        public async Task<IActionResult> Revoke()
+        {
+            await _lineNotify.Revoke();
+            return RedirectToAction("Index");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
